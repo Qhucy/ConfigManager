@@ -1,4 +1,4 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

@@ -1,5 +1,6 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.config;
 
+import com.qhucy.configmanager.value.ConfigValue;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;

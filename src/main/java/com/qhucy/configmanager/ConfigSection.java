@@ -1,5 +1,7 @@
 package com.qhucy.configmanager;
 
+import com.qhucy.configmanager.value.ConfigValue;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 

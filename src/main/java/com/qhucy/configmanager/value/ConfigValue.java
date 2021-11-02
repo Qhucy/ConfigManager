@@ -1,4 +1,4 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.value;
 
 import org.jetbrains.annotations.Nullable;
 

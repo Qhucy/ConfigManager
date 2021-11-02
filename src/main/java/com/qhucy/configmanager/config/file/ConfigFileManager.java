@@ -1,5 +1,6 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.config.file;
 
+import com.qhucy.configmanager.ConfigManager;
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

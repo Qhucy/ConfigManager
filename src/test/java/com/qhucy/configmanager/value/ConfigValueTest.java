@@ -1,4 +1,4 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.value;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,11 +35,19 @@ final class ConfigValueTest
     {
 
         @Test
-        @DisplayName( "Instantiates with no exception " )
-        void instantiatesWithNoException()
+        @DisplayName( "Instantiates with no exception on null value" )
+        void instantiatesWithNoExceptionNull()
         {
             assertDoesNotThrow( () -> new ConfigValue( null, null ) );
             assertDoesNotThrow( () -> new ConfigValue( null ) );
+        }
+
+        @Test
+        @DisplayName( "Instantiates with no exception on non-null value" )
+        void instantiatesWithNoExceptionNonNull()
+        {
+            assertDoesNotThrow( () -> new ConfigValue( VALUE, DEFAULT_VALUE ) );
+            assertDoesNotThrow( () -> new ConfigValue( VALUE ) );
         }
 
     }
@@ -110,14 +118,14 @@ final class ConfigValueTest
         private ConfigValue configValue;
 
         @BeforeEach
-        final void setUp()
+        void setUp()
         {
             this.configValue = new ConfigValue( VALUE, DEFAULT_VALUE );
         }
 
         @Test
         @DisplayName( "Setting the value class attribute" )
-        final void settingTheValueClassAttribute()
+        void settingTheValueClassAttribute()
         {
             configValue.setValue( "hi" );
 
@@ -126,7 +134,7 @@ final class ConfigValueTest
 
         @Test
         @DisplayName( "Setting the defaultValue class attribute" )
-        final void settingTheDefaultValueClassAttribute()
+        void settingTheDefaultValueClassAttribute()
         {
             configValue.setDefaultValue( true );
 

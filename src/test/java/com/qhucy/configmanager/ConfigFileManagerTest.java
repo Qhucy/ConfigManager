@@ -1,5 +1,6 @@
 package com.qhucy.configmanager;
 
+import com.qhucy.configmanager.config.file.ConfigFileManager;
 import com.qhucy.configmanager.util.TestingUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

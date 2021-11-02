@@ -1,4 +1,4 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.value;
 
 /**
  * Enumeration constants representing that a ConfigValue has an error.
