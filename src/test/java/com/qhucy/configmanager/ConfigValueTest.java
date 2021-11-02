@@ -36,7 +36,7 @@ final class ConfigValueTest
 
         @Test
         @DisplayName( "Instantiates with no exception " )
-        final void instantiatesWithNoException()
+        void instantiatesWithNoException()
         {
             assertDoesNotThrow( () -> new ConfigValue( null, null ) );
             assertDoesNotThrow( () -> new ConfigValue( null ) );
@@ -51,14 +51,14 @@ final class ConfigValueTest
 
         @Test
         @DisplayName( "Getting the value class attribute" )
-        final void gettingTheValueClassAttribute()
+        void gettingTheValueClassAttribute()
         {
             assertEquals( VALUE, CONFIG_VALUE.getValue() );
         }
 
         @Test
         @DisplayName( "hasValue true when non-error value" )
-        final void hasValueTrueWhenNonError()
+        void hasValueTrueWhenNonError()
         {
             final ConfigValue configValue = new ConfigValue( VALUE, DEFAULT_VALUE );
 
@@ -67,7 +67,7 @@ final class ConfigValueTest
 
         @Test
         @DisplayName( "hasValue false when error value" )
-        final void hasValueFalseWhenError()
+        void hasValueFalseWhenError()
         {
             final ConfigValue configValue = new ConfigValue( ErrorValue.MISSING, DEFAULT_VALUE );
 
@@ -76,14 +76,14 @@ final class ConfigValueTest
 
         @Test
         @DisplayName( "Getting the defaultValue class attribute" )
-        final void gettingTheDefaultValueClassAttribute()
+        void gettingTheDefaultValueClassAttribute()
         {
             assertEquals( DEFAULT_VALUE, CONFIG_VALUE.getDefaultValue() );
         }
 
         @Test
         @DisplayName( "hasDefaultValue true when non-error value" )
-        final void hasDefaultValueTrueWhenNonError()
+        void hasDefaultValueTrueWhenNonError()
         {
             final ConfigValue configValue = new ConfigValue( VALUE, 30 );
 
@@ -92,7 +92,7 @@ final class ConfigValueTest
 
         @Test
         @DisplayName( "hasDefaultValue false when error value" )
-        final void hasDefaultValueFalseWhenError()
+        void hasDefaultValueFalseWhenError()
         {
             final ConfigValue configValue = new ConfigValue( VALUE, ErrorValue.MISSING );
 
