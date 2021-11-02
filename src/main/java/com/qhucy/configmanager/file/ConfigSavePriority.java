@@ -1,8 +1,8 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.file;
 
-import com.qhucy.configmanager.config.file.ConfigFileManager;
-import com.qhucy.configmanager.config.ConfigManagerBungee;
-import com.qhucy.configmanager.config.ConfigManagerSpigot;
+import com.qhucy.configmanager.ConfigManager;
+import com.qhucy.configmanager.ConfigManagerSpigot;
+import com.qhucy.configmanager.ConfigManagerBungee;
 
 /**
  * Enumeration constants representing how a config field and value map should be saved to a file.

@@ -1,4 +1,4 @@
-package com.qhucy.configmanager.config.file;
+package com.qhucy.configmanager.file;
 
 import com.qhucy.configmanager.ConfigManager;
 import org.apache.commons.lang.Validate;

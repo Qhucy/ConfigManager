@@ -1,5 +1,7 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.resources;
 
+import com.qhucy.configmanager.file.ConfigSavableLoadable;
+import com.qhucy.configmanager.file.ConfigSavePriority;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -72,7 +74,19 @@ public final class Dog
     }
 
     @Override
+    public void saveAsConfigObjectToFile()
+    {
+
+    }
+
+    @Override
     public void loadAsConfigObjectFromFile( @NotNull ConfigSavePriority configSavePriority )
+    {
+
+    }
+
+    @Override
+    public void loadAsConfigObjectFromFile()
     {
 
     }

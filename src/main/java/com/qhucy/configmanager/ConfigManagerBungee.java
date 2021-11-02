@@ -5,9 +5,8 @@ package com.qhucy.configmanager;
  * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
-public enum Sex
+public final class ConfigManagerBungee
 {
 
-    MALE, FEMALE
 
 }

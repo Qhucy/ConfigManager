@@ -1,7 +1,7 @@
-package com.qhucy.configmanager.config;
+package com.qhucy.configmanager;
 
-import com.qhucy.configmanager.ConfigManager;
 import com.qhucy.configmanager.value.ConfigValue;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -55,7 +55,7 @@ class ConfigBuilderTest
         @DisplayName( "Does not throw if value for ConfigValue is null" )
         final void doesNotThrowIfValueForConfigValueIsNull()
         {
-            assertDoesNotThrow( () -> ConfigBuilder.buildConfigValueMapFromConfigValues( "field", null ) );
+            Assertions.assertDoesNotThrow( () -> ConfigBuilder.buildConfigValueMapFromConfigValues( "field", null ) );
         }
 
         @Test

@@ -1,6 +1,5 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.file;
 
-import com.qhucy.configmanager.config.file.ConfigFileManager;
 import com.qhucy.configmanager.util.TestingUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,14 +28,14 @@ final class ConfigFileManagerTest
 
         @Test
         @DisplayName( "Throws exception if param configFile is null" )
-        final void throwsExceptionIfParamConfigFileIsNull()
+        void throwsExceptionIfParamConfigFileIsNull()
         {
             TestingUtil.assertParameter( () -> ConfigFileManager.assertValidConfigFile( null ) );
         }
 
         @Test
         @DisplayName( "Throws exception if file does not exist" )
-        final void throwsExceptionIfFileDoesNotExist()
+        void throwsExceptionIfFileDoesNotExist()
         {
             assertThrows( InvalidPathException.class,
                           () -> ConfigFileManager.assertValidConfigFile( new File( "invalid-file.xrvz" ) ) );
@@ -44,7 +43,7 @@ final class ConfigFileManagerTest
 
         @Test
         @DisplayName( "Throws exception if file is not a file" )
-        final void throwsExceptionIfFileIsNotAFile()
+        void throwsExceptionIfFileIsNotAFile()
         {
             assertThrows( InvalidPathException.class,
                           () -> ConfigFileManager.assertValidConfigFile( new File( "src/test" ) ) );
@@ -52,7 +51,7 @@ final class ConfigFileManagerTest
 
         @Test
         @DisplayName( "Throws exception if file is not YAML file" )
-        final void throwsExceptionIfFileIsNotYAMLFile()
+        void throwsExceptionIfFileIsNotYAMLFile()
         {
             assertThrows( InvalidPathException.class, () -> ConfigFileManager.assertValidConfigFile(
                     new File( "src/test/java/com/qhucy/configmanager/text" + ".txt" ) ) );
@@ -60,7 +59,7 @@ final class ConfigFileManagerTest
 
         @Test
         @DisplayName( "Does not throw if valid config file" )
-        final void doesNotThrowIfValidConfigFile()
+        void doesNotThrowIfValidConfigFile()
         {
             assertDoesNotThrow( () -> ConfigFileManager.assertValidConfigFile(
                     new File( "src/test/java/com/qhucy/configmanager" + "/dummy_config" + ".yml" ) ) );

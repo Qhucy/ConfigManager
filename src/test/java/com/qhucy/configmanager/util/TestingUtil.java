@@ -24,8 +24,7 @@ public final class TestingUtil
     {
         Validate.notNull( executable, "Parameter executable cannot be null." );
 
-        assertThrows( IllegalArgumentException.class, executable,
-                      "Expected " + "IllegalArgumentException to be thrown" );
+        assertThrows( IllegalArgumentException.class, executable, "Expected IllegalArgumentException to be thrown" );
     }
 
 }

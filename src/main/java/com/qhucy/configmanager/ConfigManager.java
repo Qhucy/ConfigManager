@@ -1,6 +1,5 @@
 package com.qhucy.configmanager;
 
-import com.qhucy.configmanager.config.ConfigBuilder;
 import com.qhucy.configmanager.value.ConfigValue;
 import com.qhucy.configmanager.value.ErrorValue;
 import org.apache.commons.lang.Validate;

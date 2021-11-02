@@ -1,8 +1,8 @@
-package com.qhucy.configmanager;
+package com.qhucy.configmanager.file;
 
-import com.qhucy.configmanager.config.file.ConfigFileManager;
-import com.qhucy.configmanager.config.ConfigManagerBungee;
-import com.qhucy.configmanager.config.ConfigManagerSpigot;
+import com.qhucy.configmanager.ConfigManager;
+import com.qhucy.configmanager.ConfigManagerBungee;
+import com.qhucy.configmanager.ConfigManagerSpigot;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -21,6 +21,10 @@ public interface ConfigSavableLoadable
 
     void saveAsConfigObjectToFile( @NotNull final ConfigSavePriority configSavePriority );
 
+    void saveAsConfigObjectToFile();
+
     void loadAsConfigObjectFromFile( @NotNull final ConfigSavePriority configSavePriority );
+
+    void loadAsConfigObjectFromFile();
 
 }
