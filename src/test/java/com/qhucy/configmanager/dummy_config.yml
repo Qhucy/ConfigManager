@@ -1,0 +1,10 @@
+boolean: true
+integer: 10
+double: 75.5
+string: 'hello there'
+a:
+  b: 1
+  c:
+    d:
+      e: 2
+    f: 3

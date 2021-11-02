@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.qhucy</groupId>
+    <artifactId>ConfigManager</artifactId>
+    <version>0.1.0</version>
+
+    <properties>
+        <!-- The source code is in Java 17 -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <!-- The project should compile to Java 17 -->
+        <maven.compiler.target>17</maven.compiler.target>
+        <!-- The TOML for Java version -->
+        <toml.version>1.0.0</toml.version>
+        <!-- The SpigotMC version -->
+        <spigot.version>1.17.1-R0.1-SNAPSHOT</spigot.version>
+        <!-- The BungeeCord version -->
+        <bungeecord.version>1.17-R0.1-SNAPSHOT</bungeecord.version>
+        <!-- The jupiter version of JUnit 5 -->
+        <junit.jupiter.version>5.7.0</junit.jupiter.version>
+    </properties>
+
+    <repositories>
+        <!-- Repository for SpigotMC -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <!-- Repository for BungeeCord -->
+        <repository>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Dependency for TOML for Java -->
+        <dependency>
+            <groupId>org.tomlj</groupId>
+            <artifactId>tomlj</artifactId>
+            <version>${toml.version}</version>
+        </dependency>
+        <!-- Dependency for the SpigotMC API -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Dependency for the BungeeCord API -->
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>${bungeecord.version}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>${bungeecord.version}</version>
+            <type>javadoc</type>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Dependencies for JUnit Testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Dependency for JetBrains Annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.20.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Maven Surefire Plugin for Maven Integrated Testing -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
