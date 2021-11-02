@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * Description.
  *
  * @see ConfigManager
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public class ConfigFileManager
@@ -23,11 +23,10 @@ public class ConfigFileManager
      * Asserts that the given file is a valid configuration file.
      *
      * @param configFile The config file.
-     *
      * @throws InvalidPathException If the given config file is invalid.
      */
-    public static void assertValidConfigFile( @NotNull final File configFile )
-            throws InvalidPathException
+    public static void assertValidConfigFile( @NotNull final File configFile ) throws
+                                                                               InvalidPathException
     {
         Validate.notNull( configFile, "Parameter configFile cannot be null." );
 
@@ -39,15 +38,11 @@ public class ConfigFileManager
         }
         else if ( !configFile.isFile() )
         {
-            throw new InvalidPathException( path,
-                                            "Path to the config file does not point to a " +
-                                                    "file." );
+            throw new InvalidPathException( path, "Path to the config file does not point to a " + "file." );
         }
         else if ( !path.endsWith( ".yml" ) && !path.endsWith( ".toml" ) )
         {
-            throw new InvalidPathException( path,
-                                            "Path does not point to a valid configuration " +
-                                                    "file." );
+            throw new InvalidPathException( path, "Path does not point to a valid configuration " + "file." );
         }
     }
 

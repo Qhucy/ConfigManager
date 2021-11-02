@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Class that stores a value and default value for a field in a config field and value map.
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public class ConfigValue
@@ -84,7 +84,6 @@ public class ConfigValue
      * Sets the defaultValue class attribute to another value.
      *
      * @param defaultValue The new defaultValue class attribute.
-     *
      * @see ErrorValue
      */
     public final void setDefaultValue( @Nullable final Object defaultValue )

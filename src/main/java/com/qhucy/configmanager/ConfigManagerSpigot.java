@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 /**
  * Description.
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public final class ConfigManagerSpigot
@@ -18,8 +18,7 @@ public final class ConfigManagerSpigot
 
     private final FileConfiguration configuration;
 
-    public ConfigManagerSpigot( @NotNull final File configFile,
-                                @Nullable final File defaultConfigFile,
+    public ConfigManagerSpigot( @NotNull final File configFile, @Nullable final File defaultConfigFile,
                                 @NotNull final Logger logger )
     {
         this.configuration = YamlConfiguration.loadConfiguration( configFile );

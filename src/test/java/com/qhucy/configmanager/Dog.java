@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Generic class object used for unit testing saving and loading config objects to and from files
  * respectively.
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public final class Dog

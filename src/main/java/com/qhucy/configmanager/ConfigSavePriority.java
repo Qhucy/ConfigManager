@@ -7,7 +7,7 @@ package com.qhucy.configmanager;
  * @see ConfigFileManager
  * @see ConfigManagerSpigot
  * @see ConfigManagerBungee
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public enum ConfigSavePriority

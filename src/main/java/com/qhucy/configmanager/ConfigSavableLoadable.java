@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * @see ConfigFileManager
  * @see ConfigManagerSpigot
  * @see ConfigManagerBungee
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public interface ConfigSavableLoadable

@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * Description.
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public class ConfigSection
@@ -14,20 +14,20 @@ public class ConfigSection
     /**
      * ConfigFileManager needs not to be abstract because we can save and load from FILES WITHOUT
      * NEEDING IMPLEMENTATION FROM BUNGEE AND SPIGOT
-     *
+     * <p>
      * ConfigManagerSpigot + ConfigManagerBungee still need to exist for those that want to load
      * from these implementations still
-     *
-     *
+     * <p>
+     * <p>
      * saving and loading from files in a ConfigFileManager preserves the comments while this is
      * not the case for a regular ConfigManager
-     *
-     *
+     * <p>
+     * <p>
      * ConfigManager needs to have a config section instead of using hashmaps. config sections
      * contain all the fields, values, and default values for a given place
      * in config.
-     *
-     *
+     * <p>
+     * <p>
      * ConfigSection has save/load function
      */
 

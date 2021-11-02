@@ -1,20 +1,24 @@
 package com.qhucy.configmanager;
 
 import com.qhucy.configmanager.util.TestingUtil;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit Testing for the ConfigManager class.
  *
  * @see ConfigManager
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 @DisplayName( "ConfigManager Class Testing" )
@@ -39,8 +43,7 @@ final class ConfigManagerTest
     // Random config source file path used for constructing a ConfigManager.
     private final static String CONFIG_SOURCE = "plugins/config.yml";
     // Basic logger used for constructing a ConfigManager.
-    private final static Logger LOGGER        =
-            Logger.getLogger( ConfigManagerTest.class.getName() );
+    private final static Logger LOGGER        = Logger.getLogger( ConfigManagerTest.class.getName() );
 
     /**
      * Puts fields and values into the config value field and value maps.
@@ -52,8 +55,7 @@ final class ConfigManagerTest
         CONFIG_VALUES.put( "double", new ConfigValue( 2.5, 9.2 ) );
         CONFIG_VALUES.put( "string", new ConfigValue( "hello", "goodbye" ) );
         CONFIG_VALUES.put( "def", new ConfigValue( ErrorValue.MISSING, 1.5 ) );
-        CONFIG_VALUES
-                .put( "all-missing", new ConfigValue( ErrorValue.MISSING, ErrorValue.MISSING ) );
+        CONFIG_VALUES.put( "all-missing", new ConfigValue( ErrorValue.MISSING, ErrorValue.MISSING ) );
         CONFIG_VALUES.put( "nested.value", new ConfigValue( true, false ) );
 
         VALUES.put( "int", 3 );
@@ -91,7 +93,7 @@ final class ConfigManagerTest
         @DisplayName( "Building empty map" )
         final void buildingEmptyMap()
         {
-            assertThat(0);
+            assertThat( 0 );
             assertEquals( 0, ConfigManager.buildConfigValueMapFromConfigValues().size() );
             assertEquals( 0, ConfigManager.buildConfigValueMapFromConfigValues( null ).size() );
         }
@@ -100,41 +102,40 @@ final class ConfigManagerTest
         @DisplayName( "Throws if odd number of args" )
         final void throwsIfOddNumberOfArgs()
         {
-            assertThrows( IllegalArgumentException.class, () -> ConfigManager
-                    .buildConfigValueMapFromConfigValues( "field", new ConfigValue( 1, 2 ),
-                                                          "another-field" ) );
+            assertThrows( IllegalArgumentException.class,
+                          () -> ConfigManager.buildConfigValueMapFromConfigValues( "field", new ConfigValue( 1, 2 ),
+                                                                                   "another-field" ) );
         }
 
         @Test
         @DisplayName( "Throws if key is not String" )
         final void throwsIfKeyIsNotString()
         {
-            assertThrows( IllegalArgumentException.class, () -> ConfigManager
-                    .buildConfigValueMapFromConfigValues( 1, 2 ) );
+            assertThrows( IllegalArgumentException.class,
+                          () -> ConfigManager.buildConfigValueMapFromConfigValues( 1, 2 ) );
         }
 
         @Test
         @DisplayName( "Throws if value is not ConfigValue" )
         final void throwsIfValueIsNotConfigValue()
         {
-            assertThrows( IllegalArgumentException.class, () -> ConfigManager
-                    .buildConfigValueMapFromConfigValues( "field", 40 ) );
+            assertThrows( IllegalArgumentException.class,
+                          () -> ConfigManager.buildConfigValueMapFromConfigValues( "field", 40 ) );
         }
 
         @Test
         @DisplayName( "Does not throw if value for ConfigValue is null" )
         final void doesNotThrowIfValueForConfigValueIsNull()
         {
-            assertDoesNotThrow( () -> ConfigManager
-                    .buildConfigValueMapFromConfigValues( "field", null ) );
+            assertDoesNotThrow( () -> ConfigManager.buildConfigValueMapFromConfigValues( "field", null ) );
         }
 
         @Test
         @DisplayName( "Builds config field and value map correctly" )
         final void buildsConfigFieldAndValueMapCorrectly()
         {
-            final HashMap< String, ConfigValue > temp = ConfigManager
-                    .buildConfigValueMapFromConfigValues( "a", null, "b", new ConfigValue( 1, 2 ) );
+            final HashMap< String, ConfigValue > temp =
+                    ConfigManager.buildConfigValueMapFromConfigValues( "a", null, "b", new ConfigValue( 1, 2 ) );
 
             assertNull( temp.get( "a" ).getValue() );
             assertNull( temp.get( "a" ).getDefaultValue() );
@@ -163,16 +164,16 @@ final class ConfigManagerTest
         @DisplayName( "Throws if number of args not divisible by 3" )
         final void throwsIfNumberOfArgsNotDivisibleBy3()
         {
-            assertThrows( IllegalArgumentException.class, () -> ConfigManager
-                    .buildConfigValueMapFromObjects( "field", 1, 2, "another-field" ) );
+            assertThrows( IllegalArgumentException.class,
+                          () -> ConfigManager.buildConfigValueMapFromObjects( "field", 1, 2, "another-field" ) );
         }
 
         @Test
         @DisplayName( "Throws if key is not String" )
         final void throwsIfKeyIsNotString()
         {
-            assertThrows( IllegalArgumentException.class, () -> ConfigManager
-                    .buildConfigValueMapFromObjects( 1, 2, 3 ) );
+            assertThrows( IllegalArgumentException.class,
+                          () -> ConfigManager.buildConfigValueMapFromObjects( 1, 2, 3 ) );
         }
 
         @Test
@@ -207,24 +208,22 @@ final class ConfigManagerTest
         @DisplayName( "Throws if odd number of args" )
         final void throwsIfOddNumberOfArgs()
         {
-            assertThrows( IllegalArgumentException.class, () -> ConfigManager
-                    .buildConfigObjectMap( "field", 1, "another-field" ) );
+            assertThrows( IllegalArgumentException.class,
+                          () -> ConfigManager.buildConfigObjectMap( "field", 1, "another-field" ) );
         }
 
         @Test
         @DisplayName( "Throws if key is not String" )
         final void throwsIfKeyIsNotString()
         {
-            assertThrows( IllegalArgumentException.class, () -> ConfigManager
-                    .buildConfigObjectMap( 1, 2 ) );
+            assertThrows( IllegalArgumentException.class, () -> ConfigManager.buildConfigObjectMap( 1, 2 ) );
         }
 
         @Test
         @DisplayName( "Builds config object map correctly" )
         final void buildsConfigObjectMapCorrectly()
         {
-            final HashMap< String, Object > temp =
-                    ConfigManager.buildConfigObjectMap( "a", null, "b", 3 );
+            final HashMap< String, Object > temp = ConfigManager.buildConfigObjectMap( "a", null, "b", 3 );
 
             assertNull( temp.get( "a" ) );
             assertEquals( 3, temp.get( "b" ) );
@@ -242,12 +241,10 @@ final class ConfigManagerTest
         final void instantiatesWithNoException()
         {
             assertDoesNotThrow( () -> new ConfigManager( CONFIG_VALUES, CONFIG_SOURCE, LOGGER ) );
-            assertDoesNotThrow( () -> new ConfigManager( VALUES, DEFAULT_VALUES, CONFIG_SOURCE,
-                                                         LOGGER ) );
-            assertDoesNotThrow( () -> new ConfigManager( FIELDS, VALUES_LIST, DEFAULT_VALUES_LIST
-                    , CONFIG_SOURCE, LOGGER ) );
-            assertDoesNotThrow( () -> new ConfigManager( FIELDS, VALUES_LIST, CONFIG_SOURCE,
-                                                         LOGGER ) );
+            assertDoesNotThrow( () -> new ConfigManager( VALUES, DEFAULT_VALUES, CONFIG_SOURCE, LOGGER ) );
+            assertDoesNotThrow(
+                    () -> new ConfigManager( FIELDS, VALUES_LIST, DEFAULT_VALUES_LIST, CONFIG_SOURCE, LOGGER ) );
+            assertDoesNotThrow( () -> new ConfigManager( FIELDS, VALUES_LIST, CONFIG_SOURCE, LOGGER ) );
             assertDoesNotThrow( () -> new ConfigManager( CONFIG_SOURCE, LOGGER, "field", 1, 2 ) );
         }
 
@@ -256,10 +253,8 @@ final class ConfigManagerTest
         final void instantiatesIfParamValuesIsNull()
         {
             assertDoesNotThrow( () -> new ConfigManager( null, CONFIG_SOURCE, LOGGER ) );
-            assertDoesNotThrow( () -> new ConfigManager( null, DEFAULT_VALUES, CONFIG_SOURCE,
-                                                         LOGGER ) );
-            assertDoesNotThrow( () -> new ConfigManager( FIELDS, null, DEFAULT_VALUES_LIST,
-                                                         CONFIG_SOURCE, LOGGER ) );
+            assertDoesNotThrow( () -> new ConfigManager( null, DEFAULT_VALUES, CONFIG_SOURCE, LOGGER ) );
+            assertDoesNotThrow( () -> new ConfigManager( FIELDS, null, DEFAULT_VALUES_LIST, CONFIG_SOURCE, LOGGER ) );
             assertDoesNotThrow( () -> new ConfigManager( FIELDS, null, CONFIG_SOURCE, LOGGER ) );
         }
 
@@ -268,8 +263,7 @@ final class ConfigManagerTest
         final void instantiatesIfParamDefaultValuesIsNull()
         {
             assertDoesNotThrow( () -> new ConfigManager( VALUES, null, CONFIG_SOURCE, LOGGER ) );
-            assertDoesNotThrow( () -> new ConfigManager( FIELDS, VALUES_LIST, null, CONFIG_SOURCE
-                    , LOGGER ) );
+            assertDoesNotThrow( () -> new ConfigManager( FIELDS, VALUES_LIST, null, CONFIG_SOURCE, LOGGER ) );
         }
 
         @Test
@@ -277,15 +271,9 @@ final class ConfigManagerTest
         final void throwsExceptionIfParamConfigSourceIsNull()
         {
             TestingUtil.assertParameter( () -> new ConfigManager( new HashMap<>(), null, LOGGER ) );
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( new HashMap<>(), new HashMap<>(),
-                                                               null, LOGGER ) );
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( new ArrayList<>(), null, null,
-                                                               null, LOGGER ) );
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( new ArrayList<>(), null, null,
-                                                               LOGGER ) );
+            TestingUtil.assertParameter( () -> new ConfigManager( new HashMap<>(), new HashMap<>(), null, LOGGER ) );
+            TestingUtil.assertParameter( () -> new ConfigManager( new ArrayList<>(), null, null, null, LOGGER ) );
+            TestingUtil.assertParameter( () -> new ConfigManager( new ArrayList<>(), null, null, LOGGER ) );
             TestingUtil.assertParameter( () -> new ConfigManager( null, LOGGER, "field", 1, 2 ) );
         }
 
@@ -293,34 +281,22 @@ final class ConfigManagerTest
         @DisplayName( "Throws exception if param logger is null" )
         final void throwsExceptionIfParamLoggerIsNull()
         {
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( new HashMap<>(), CONFIG_SOURCE,
-                                                               null ) );
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( new HashMap<>(), new HashMap<>(),
-                                                               CONFIG_SOURCE, null ) );
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( new ArrayList<>(), null, null,
-                                                               CONFIG_SOURCE, null ) );
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( new ArrayList<>(), null,
-                                                               CONFIG_SOURCE, null ) );
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( CONFIG_SOURCE, null, "field", 1,
-                                                               2 ) );
+            TestingUtil.assertParameter( () -> new ConfigManager( new HashMap<>(), CONFIG_SOURCE, null ) );
+            TestingUtil.assertParameter(
+                    () -> new ConfigManager( new HashMap<>(), new HashMap<>(), CONFIG_SOURCE, null ) );
+            TestingUtil.assertParameter(
+                    () -> new ConfigManager( new ArrayList<>(), null, null, CONFIG_SOURCE, null ) );
+            TestingUtil.assertParameter( () -> new ConfigManager( new ArrayList<>(), null, CONFIG_SOURCE, null ) );
+            TestingUtil.assertParameter( () -> new ConfigManager( CONFIG_SOURCE, null, "field", 1, 2 ) );
         }
 
         @Test
         @DisplayName( "Throws exception if param fields is null" )
         final void throwsExceptionIfParamFieldsIsNull()
         {
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( null, VALUES_LIST,
-                                                               DEFAULT_VALUES_LIST, CONFIG_SOURCE
-                            , LOGGER ) );
-            TestingUtil
-                    .assertParameter( () -> new ConfigManager( null, VALUES_LIST, CONFIG_SOURCE,
-                                                               LOGGER ) );
+            TestingUtil.assertParameter(
+                    () -> new ConfigManager( null, VALUES_LIST, DEFAULT_VALUES_LIST, CONFIG_SOURCE, LOGGER ) );
+            TestingUtil.assertParameter( () -> new ConfigManager( null, VALUES_LIST, CONFIG_SOURCE, LOGGER ) );
         }
 
     }
@@ -373,12 +349,10 @@ final class ConfigManagerTest
         }
 
         @Test
-        @DisplayName(
-                "Getting config section fields throws exception if param parentField is null" )
+        @DisplayName( "Getting config section fields throws exception if param parentField is null" )
         final void gettingConfigSectionFieldsThrowsExceptionIfParamParentFieldIsNull()
         {
-            TestingUtil.assertParameter( () -> configManager
-                    .getConfigSectionFields( null, false, false ) );
+            TestingUtil.assertParameter( () -> configManager.getConfigSectionFields( null, false, false ) );
         }
 
         @Test
@@ -392,26 +366,23 @@ final class ConfigManagerTest
         @DisplayName( "Getting config section fields returns nested fields" )
         final void gettingConfigSectionReturnsNestedFields()
         {
-            assertEquals( 2, configManager.getConfigSectionFields( "nested", false, false )
-                                          .size() );
-            assertEquals( "deeper", configManager
-                    .getConfigSectionFields( "field.even.more", false, false ).get( 0 ) );
+            assertEquals( 2, configManager.getConfigSectionFields( "nested", false, false ).size() );
+            assertEquals( "deeper", configManager.getConfigSectionFields( "field.even.more", false, false ).get( 0 ) );
         }
 
         @Test
         @DisplayName( "Getting config section fields with full fields" )
         final void gettingConfigSectionFieldsWithFullFields()
         {
-            assertEquals( "field.even.more.deeper", configManager
-                    .getConfigSectionFields( "field.even.more", true, false ).get( 0 ) );
+            assertEquals( "field.even.more.deeper",
+                          configManager.getConfigSectionFields( "field.even.more", true, false ).get( 0 ) );
         }
 
         @Test
         @DisplayName( "Getting config section fields with non full fields" )
         final void gettingConfigSectionFieldsWithNonFullFields()
         {
-            assertEquals( "deeper", configManager
-                    .getConfigSectionFields( "field.even.more", false, false ).get( 0 ) );
+            assertEquals( "deeper", configManager.getConfigSectionFields( "field.even.more", false, false ).get( 0 ) );
         }
 
         @Test
@@ -420,12 +391,9 @@ final class ConfigManagerTest
         {
             assertEquals( 3, configManager.getConfigSectionFields( "field", false, true ).size() );
 
-            assertTrue( configManager.getConfigSectionFields( "field", false, true )
-                                     .contains( "deep" ) );
-            assertTrue( configManager.getConfigSectionFields( "field", false, true )
-                                     .contains( "even.deeper" ) );
-            assertTrue( configManager.getConfigSectionFields( "field", false, true )
-                                     .contains( "even.more.deeper" ) );
+            assertTrue( configManager.getConfigSectionFields( "field", false, true ).contains( "deep" ) );
+            assertTrue( configManager.getConfigSectionFields( "field", false, true ).contains( "even.deeper" ) );
+            assertTrue( configManager.getConfigSectionFields( "field", false, true ).contains( "even.more.deeper" ) );
         }
 
         @Test
@@ -434,8 +402,7 @@ final class ConfigManagerTest
         {
             assertEquals( 1, configManager.getConfigSectionFields( "field", false, false ).size() );
 
-            assertTrue( configManager.getConfigSectionFields( "field", false, false )
-                                     .contains( "deep" ) );
+            assertTrue( configManager.getConfigSectionFields( "field", false, false ).contains( "deep" ) );
         }
 
         @Test
@@ -444,20 +411,17 @@ final class ConfigManagerTest
         {
             assertEquals( 3, configManager.getConfigSectionFields( "field", true, true ).size() );
 
-            assertTrue( configManager.getConfigSectionFields( "field", true, true )
-                                     .contains( "field.deep" ) );
-            assertTrue( configManager.getConfigSectionFields( "field", true, true )
-                                     .contains( "field.even.deeper" ) );
-            assertTrue( configManager.getConfigSectionFields( "field", true, true )
-                                     .contains( "field.even.more.deeper" ) );
+            assertTrue( configManager.getConfigSectionFields( "field", true, true ).contains( "field.deep" ) );
+            assertTrue( configManager.getConfigSectionFields( "field", true, true ).contains( "field.even.deeper" ) );
+            assertTrue(
+                    configManager.getConfigSectionFields( "field", true, true ).contains( "field.even.more.deeper" ) );
         }
 
         @Test
         @DisplayName( "Getting config section fields does not include parent field" )
         final void gettingConfigSectionFieldsDoesNotIncludeParentField()
         {
-            assertFalse( configManager.getConfigSectionFields( "nested", true, true )
-                                      .contains( "nested" ) );
+            assertFalse( configManager.getConfigSectionFields( "nested", true, true ).contains( "nested" ) );
         }
 
         @Test
@@ -771,8 +735,7 @@ final class ConfigManagerTest
     {
 
         // ConfigManager object used for testing the logging methods.
-        private final ConfigManager CONFIG_MANAGER =
-                new ConfigManager( CONFIG_VALUES, CONFIG_SOURCE, LOGGER );
+        private final ConfigManager CONFIG_MANAGER = new ConfigManager( CONFIG_VALUES, CONFIG_SOURCE, LOGGER );
 
         @Test
         @DisplayName( "logMessage throws if param level is null" )
@@ -792,24 +755,21 @@ final class ConfigManagerTest
         @DisplayName( "logMissingValueWithReplacement throws if param field is null" )
         final void logMissingValueWithReplacementThrowsIfParamFieldIsNull()
         {
-            TestingUtil.assertParameter( () -> CONFIG_MANAGER
-                    .logMissingValueWithReplacement( null, "", "" ) );
+            TestingUtil.assertParameter( () -> CONFIG_MANAGER.logMissingValueWithReplacement( null, "", "" ) );
         }
 
         @Test
         @DisplayName( "logMissingValueWithReplacement throws if param replacement is null" )
         final void logMissingValueWithReplacementThrowsIfParamReplacementIsNull()
         {
-            TestingUtil.assertParameter( () -> CONFIG_MANAGER
-                    .logMissingValueWithReplacement( "", null, "" ) );
+            TestingUtil.assertParameter( () -> CONFIG_MANAGER.logMissingValueWithReplacement( "", null, "" ) );
         }
 
         @Test
         @DisplayName( "logMissingValueWithReplacement throws if param extraMessages is null" )
         final void logMissingValueWithReplacementThrowsIfParamExtraMessagesIsNull()
         {
-            TestingUtil.assertParameter( () -> CONFIG_MANAGER
-                    .logMissingValueWithReplacement( "", "", null ) );
+            TestingUtil.assertParameter( () -> CONFIG_MANAGER.logMissingValueWithReplacement( "", "", null ) );
         }
 
         @Test

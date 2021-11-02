@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Static utility method class for JUnit Testing.
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public final class TestingUtil
@@ -24,8 +24,8 @@ public final class TestingUtil
     {
         Validate.notNull( executable, "Parameter executable cannot be null." );
 
-        assertThrows( IllegalArgumentException.class, executable, "Expected " +
-                "IllegalArgumentException to be thrown" );
+        assertThrows( IllegalArgumentException.class, executable,
+                      "Expected " + "IllegalArgumentException to be thrown" );
     }
 
 }

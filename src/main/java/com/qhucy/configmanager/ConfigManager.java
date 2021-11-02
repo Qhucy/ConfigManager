@@ -5,7 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +18,7 @@ import java.util.logging.Logger;
  * value map. When trying to access missing fields, it will be logged to console.
  *
  * @see ConfigValue
- *
+ * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public class ConfigManager
@@ -42,8 +46,8 @@ public class ConfigManager
      * @param logger       The accessing plugin's logger that is used to log missing and invalid
      *                     config values.
      */
-    public ConfigManager( @Nullable final HashMap< String, ConfigValue > values,
-                          @NotNull final String configSource, @NotNull final Logger logger )
+    public ConfigManager( @Nullable final HashMap< String, ConfigValue > values, @NotNull final String configSource,
+                          @NotNull final Logger logger )
     {
         setConfigValues( values );
 
@@ -63,8 +67,8 @@ public class ConfigManager
      *                      config values.
      */
     public ConfigManager( @Nullable final HashMap< String, Object > values,
-                          @Nullable final HashMap< String, Object > defaultValues,
-                          @NotNull final String configSource, @NotNull final Logger logger )
+                          @Nullable final HashMap< String, Object > defaultValues, @NotNull final String configSource,
+                          @NotNull final Logger logger )
     {
         transferValues( values );
         transferDefaultValues( defaultValues );
@@ -84,21 +88,17 @@ public class ConfigManager
      * @param logger        The accessing plugin's logger that is used to log missing and invalid
      *                      config values.
      */
-    public ConfigManager( @NotNull final List< String > fields,
-                          @Nullable final List< Object > values,
-                          @Nullable final List< Object > defaultValues,
-                          @NotNull final String configSource, @NotNull final Logger logger )
+    public ConfigManager( @NotNull final List< String > fields, @Nullable final List< Object > values,
+                          @Nullable final List< Object > defaultValues, @NotNull final String configSource,
+                          @NotNull final Logger logger )
     {
         Validate.notNull( fields, "Parameter fields cannot be null." );
 
         for ( int i = 0; i < fields.size(); ++i )
         {
-            final Object value =
-                    ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
-            final Object defaultValue = ( defaultValues == null ) ? null
-                                                                  : ( ( defaultValues.size() > i )
-                                                                      ? defaultValues.get( i )
-                                                                      : null );
+            final Object value = ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
+            final Object defaultValue =
+                    ( defaultValues == null ) ? null : ( ( defaultValues.size() > i ) ? defaultValues.get( i ) : null );
 
             setConfigValue( fields.get( i ), new ConfigValue( value, defaultValue ) );
         }
@@ -117,16 +117,14 @@ public class ConfigManager
      * @param logger       The accessing plugin's logger that is used to log missing and invalid
      *                     config values.
      */
-    public ConfigManager( @NotNull final List< String > fields,
-                          @Nullable final List< Object > values,
+    public ConfigManager( @NotNull final List< String > fields, @Nullable final List< Object > values,
                           @NotNull final String configSource, @NotNull final Logger logger )
     {
         Validate.notNull( fields, "Parameter fields cannot be null." );
 
         for ( int i = 0; i < fields.size(); ++i )
         {
-            final Object value =
-                    ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
+            final Object value = ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
 
             setConfigValue( fields.get( i ), new ConfigValue( value, null ) );
         }
@@ -183,11 +181,9 @@ public class ConfigManager
      *                    location with respect to the parent field.
      * @param deepFields  If fields include all nested fields under child fields or just the child
      *                    fields of the parent.
-     *
      * @return The list of nested fields under a given field in the config key and value map.
      */
-    public final List< String > getConfigSectionFields( @NotNull final String parentField,
-                                                        final boolean fullFields,
+    public final List< String > getConfigSectionFields( @NotNull final String parentField, final boolean fullFields,
                                                         final boolean deepFields )
     {
         Validate.notNull( parentField, "Parameter parentField cannot be null." );
@@ -199,7 +195,7 @@ public class ConfigManager
             if ( field.startsWith( parentField ) && !field.equalsIgnoreCase( parentField ) )
             {
                 final int parentNestedDepth = parentField.split( "\\." ).length;
-                final int fieldNestedDepth  = field.split( "\\." ).length;
+                final int fieldNestedDepth = field.split( "\\." ).length;
 
                 if ( !deepFields && ( fieldNestedDepth - parentNestedDepth ) > 1 )
                 {
@@ -217,9 +213,7 @@ public class ConfigManager
      * Returns the ConfigValue at the given field in the config field and value map.
      *
      * @param field The field for the ConfigValue.
-     *
      * @return The ConfigValue at the given field in the config field and value map.
-     *
      * @see ConfigValue
      */
     @Nullable
@@ -245,13 +239,11 @@ public class ConfigManager
      * @param field       The field to set in the config field and value map.
      * @param configValue The value to attach to the field in the config field and value map.
      */
-    public final void setConfigValue( @NotNull final String field,
-                                      @Nullable final ConfigValue configValue )
+    public final void setConfigValue( @NotNull final String field, @Nullable final ConfigValue configValue )
     {
         Validate.notNull( field, "Parameter field cannot be null." );
 
-        getValues().put( field, Objects
-                .requireNonNullElseGet( configValue, () -> new ConfigValue( null, null ) ) );
+        getValues().put( field, Objects.requireNonNullElseGet( configValue, () -> new ConfigValue( null, null ) ) );
     }
 
     /**
@@ -259,7 +251,6 @@ public class ConfigManager
      * missing.
      *
      * @param field The field in the config field and value map.
-     *
      * @return The value at a given field in the config field and value map.
      */
     @Nullable
@@ -277,8 +268,7 @@ public class ConfigManager
             }
             else if ( configValue.hasDefaultValue() )
             {
-                logMissingValueWithReplacement( field, String
-                        .valueOf( configValue.getDefaultValue() ) );
+                logMissingValueWithReplacement( field, String.valueOf( configValue.getDefaultValue() ) );
 
                 return configValue.getDefaultValue();
             }
@@ -335,9 +325,7 @@ public class ConfigManager
                 }
                 else
                 {
-                    getValues()
-                            .put( entry.getKey(), new ConfigValue( entry.getValue(),
-                                                                   ErrorValue.MISSING ) );
+                    getValues().put( entry.getKey(), new ConfigValue( entry.getValue(), ErrorValue.MISSING ) );
                 }
             }
         }
@@ -347,7 +335,6 @@ public class ConfigManager
      * Returns the default value at a given field in the config field and value map.
      *
      * @param field The field in the config field and value map.
-     *
      * @return The default value at a given field in the config field and value map.
      */
     @Nullable
@@ -414,8 +401,7 @@ public class ConfigManager
                 }
                 else
                 {
-                    getValues().put( entry.getKey(), new ConfigValue( ErrorValue.MISSING, entry
-                            .getValue() ) );
+                    getValues().put( entry.getKey(), new ConfigValue( ErrorValue.MISSING, entry.getValue() ) );
                 }
             }
         }
@@ -517,16 +503,16 @@ public class ConfigManager
      * @param replacement   The replacement value from the default config field and value map.
      * @param extraMessages Extra messages to separately log afterwards.
      */
-    public void logMissingValueWithReplacement( @NotNull final String field,
-                                                @NotNull final String replacement,
+    public void logMissingValueWithReplacement( @NotNull final String field, @NotNull final String replacement,
                                                 @NotNull final String... extraMessages )
     {
         Validate.notNull( field, "Parameter field cannot be null." );
         Validate.notNull( replacement, "Parameter replacement cannot be null." );
         Validate.notNull( extraMessages, "Parameter extraMessages cannot be null." );
 
-        logMessage( Level.WARNING, String
-                .format( "Field '%s' does not exist in the config field and value map " + "from " + "'%s'. " + "Using replacement value %s " + "from " + "the " + "default config " + "field" + " " + "and value map" + ".", field, getConfigSource(), replacement ) );
+        logMessage( Level.WARNING, String.format(
+                "Field '%s' does not exist in the config field and value map " + "from " + "'%s'. " + "Using replacement value %s " + "from " + "the " + "default config " + "field" + " " + "and value map" + ".",
+                field, getConfigSource(), replacement ) );
 
         if ( extraMessages.length > 0 )
         {
@@ -543,14 +529,14 @@ public class ConfigManager
      * @param field         The missing field in the config field and value map.
      * @param extraMessages Extra messages to separately log afterwards.
      */
-    public void logMissingValue( @NotNull final String field,
-                                 @NotNull final String... extraMessages )
+    public void logMissingValue( @NotNull final String field, @NotNull final String... extraMessages )
     {
         Validate.notNull( field, "Parameter field cannot be null." );
         Validate.notNull( extraMessages, "Parameter extraMessages cannot be null." );
 
-        logMessage( Level.SEVERE, String
-                .format( "Field '%s' does not exist in the config field and value map " + "from " + "'%s'. " + "No replacements were found " + "and " + "the plugin " + "now emits " + "undefined behavior which is" + " very " + "dangerous!", field, getConfigSource() ) );
+        logMessage( Level.SEVERE, String.format(
+                "Field '%s' does not exist in the config field and value map " + "from " + "'%s'. " + "No replacements were found " + "and " + "the plugin " + "now emits " + "undefined behavior which is" + " very " + "dangerous!",
+                field, getConfigSource() ) );
 
         if ( extraMessages.length > 0 )
         {
