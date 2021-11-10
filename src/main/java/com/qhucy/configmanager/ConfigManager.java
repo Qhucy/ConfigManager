@@ -43,13 +43,12 @@ public class ConfigManager
      * Instantiates a ConfigManager from a config field and value map.
      *
      * @param values       The config field and value map.
-     * @param configSource The text path that leads to the source of the config field and value map
-     *                     (usually a file path).
+     * @param configSource The source of the config field and value map.
      * @param logger       The accessing plugin's logger that is used to log missing and invalid
      *                     config values.
      */
-    public ConfigManager( @Nullable final HashMap< String, ConfigValue > values, @NotNull final String configSource,
-                          @NotNull final Logger logger )
+    public ConfigManager( @Nullable final HashMap< String, ConfigValue > values,
+                          @NotNull final ConfigSource configSource, @NotNull final Logger logger )
     {
         setConfigValues( values );
 
@@ -63,14 +62,13 @@ public class ConfigManager
      *
      * @param values        The config field and value map.
      * @param defaultValues The default config field and value map.
-     * @param configSource  The text path that leads to the source of the config field and value map
-     *                      (usually a file path).
+     * @param configSource  The source of the config field and value map.
      * @param logger        The accessing plugin's logger that is used to log missing and invalid
      *                      config values.
      */
     public ConfigManager( @Nullable final HashMap< String, Object > values,
-                          @Nullable final HashMap< String, Object > defaultValues, @NotNull final String configSource,
-                          @NotNull final Logger logger )
+                          @Nullable final HashMap< String, Object > defaultValues,
+                          @NotNull final ConfigSource configSource, @NotNull final Logger logger )
     {
         transferValues( values );
         transferDefaultValues( defaultValues );
@@ -85,13 +83,12 @@ public class ConfigManager
      * @param fields        The list of fields for the config field and value map.
      * @param values        The list of values for the config field and value map.
      * @param defaultValues The list of default values for the config field and value map.
-     * @param configSource  The text path that leads to the source of the config field and value map
-     *                      (usually a file path).
+     * @param configSource  The source of the config field and value map.
      * @param logger        The accessing plugin's logger that is used to log missing and invalid
      *                      config values.
      */
     public ConfigManager( @NotNull final List< String > fields, @Nullable final List< Object > values,
-                          @Nullable final List< Object > defaultValues, @NotNull final String configSource,
+                          @Nullable final List< Object > defaultValues, @NotNull final ConfigSource configSource,
                           @NotNull final Logger logger )
     {
         Validate.notNull( fields, "Parameter fields cannot be null." );
@@ -114,13 +111,12 @@ public class ConfigManager
      *
      * @param fields       The list of fields for the config field and value map.
      * @param values       The list of values for the config field and value map.
-     * @param configSource The text path that leads to the source of the config field and value map
-     *                     (usually a file path).
+     * @param configSource The source of the config field and value map.
      * @param logger       The accessing plugin's logger that is used to log missing and invalid
      *                     config values.
      */
     public ConfigManager( @NotNull final List< String > fields, @Nullable final List< Object > values,
-                          @NotNull final String configSource, @NotNull final Logger logger )
+                          @NotNull final ConfigSource configSource, @NotNull final Logger logger )
     {
         Validate.notNull( fields, "Parameter fields cannot be null." );
 
@@ -139,14 +135,13 @@ public class ConfigManager
      * Instantiates a ConfigManager from an inputted array of config fields, values, and default
      * values.
      *
-     * @param configSource           The text path that leads to the source of the config field and
-     *                               value map (usually a file path).
+     * @param configSource           The source of the config field and value map.
      * @param logger                 The accessing plugin's logger that is used to log missing and
      *                               invalid config values.
      * @param fieldValueDefaultValue Alternating String fields and its respective value and default
      *                               value to build a new config field and value map.
      */
-    public ConfigManager( @NotNull final String configSource, @NotNull final Logger logger,
+    public ConfigManager( @NotNull final ConfigSource configSource, @NotNull final Logger logger,
                           @Nullable final Object... fieldValueDefaultValue )
     {
         setConfigSource( configSource );
@@ -414,7 +409,7 @@ public class ConfigManager
      *
      * @return the configSource class attribute.
      */
-    public final String getConfigSource()
+    public final ConfigSource getConfigSource()
     {
         return configSource;
     }
@@ -424,7 +419,7 @@ public class ConfigManager
      *
      * @param configSource The new configSource class attribute.
      */
-    public final void setConfigSource( @NotNull final String configSource )
+    public final void setConfigSource( @NotNull final ConfigSource configSource )
     {
         Validate.notNull( configSource, "Parameter configSource cannot be null." );
 

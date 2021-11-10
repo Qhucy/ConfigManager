@@ -1,5 +1,6 @@
 package com.qhucy.configmanager;
 
+import com.qhucy.configmanager.source.ConfigSource;
 import com.qhucy.configmanager.util.TestingUtil;
 import com.qhucy.configmanager.value.ConfigValue;
 import com.qhucy.configmanager.value.ErrorValue;
@@ -14,7 +15,11 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit Testing for the ConfigManager class.
@@ -43,9 +48,9 @@ final class ConfigManagerTest
     private final static ArrayList< Object > DEFAULT_VALUES_LIST = new ArrayList<>();
 
     // Random config source file path used for constructing a ConfigManager.
-    private final static String CONFIG_SOURCE = "plugins/config.yml";
+    private final static ConfigSource CONFIG_SOURCE = new ConfigSource( "plugins/config.yml" );
     // Basic logger used for constructing a ConfigManager.
-    private final static Logger LOGGER        = Logger.getLogger( ConfigManagerTest.class.getName() );
+    private final static Logger       LOGGER        = Logger.getLogger( ConfigManagerTest.class.getName() );
 
     /**
      * Puts fields and values into the config value field and value maps.
@@ -550,7 +555,7 @@ final class ConfigManagerTest
         @DisplayName( "Setting config source" )
         void settingConfigSource()
         {
-            configManager.setConfigSource( "config.yml" );
+            configManager.setConfigSource( new ConfigSource( "config.yml" ) );
 
             assertEquals( "config.yml", configManager.getConfigSource() );
         }
