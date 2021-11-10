@@ -17,6 +17,18 @@ public class FileSource
         extends ConfigSource
 {
 
+    /**
+     * Returns a new FileSource object from a given file.
+     *
+     * @param file The file to create the FileSource object from.
+     * @return A new FileSource object from a given file.
+     */
+    @NotNull
+    public static FileSource fromFile( @NotNull final File file )
+    {
+        return new FileSource( file );
+    }
+
     // The source file object where the config field and value map was loaded from.
     private File sourceFile;
 
