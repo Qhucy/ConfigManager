@@ -1,5 +1,6 @@
 package com.qhucy.configmanager;
 
+import com.qhucy.configmanager.source.ConfigSource;
 import com.qhucy.configmanager.value.ConfigValue;
 import com.qhucy.configmanager.value.ErrorValue;
 import org.apache.commons.lang.Validate;
@@ -29,12 +30,11 @@ public class ConfigManager
     // The config field and value map.
     private Map< String, ConfigValue > values = new HashMap<>();
 
-    // The text path that leads to the source of the config field and value map (usually a file
-    // path).
-    private String configSource;
+    // The source of the config field and value map.
+    private ConfigSource configSource;
     // The accessing plugin's logger that is used to log missing, invalid, and unknown config
     // values.
-    private Logger logger;
+    private Logger       logger;
 
     // Whether or not there are missing values in the loaded config field and value map.
     private boolean missingValues = false;
