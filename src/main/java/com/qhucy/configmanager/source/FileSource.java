@@ -20,13 +20,13 @@ public class FileSource
     /**
      * Returns a new FileSource object from a given file.
      *
-     * @param file The file to create the FileSource object from.
+     * @param sourceFile The file to create the FileSource object from.
      * @return A new FileSource object from a given file.
      */
     @NotNull
-    public static FileSource fromFile( @NotNull final File file )
+    public static FileSource fromFile( @NotNull final File sourceFile )
     {
-        return new FileSource( file );
+        return new FileSource( sourceFile );
     }
 
     // The source file object where the config field and value map was loaded from.
@@ -65,7 +65,7 @@ public class FileSource
         Validate.notNull( sourceFile, "Parameter sourceFile cannot be null." );
 
         this.sourceFile = sourceFile;
-        super.setSource( sourceFile.getAbsolutePath() );
+        super.setSourcePath( sourceFile.getAbsolutePath() );
     }
 
 }
