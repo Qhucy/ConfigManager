@@ -1,6 +1,7 @@
 package com.qhucy.configmanager.file;
 
 import com.qhucy.configmanager.ConfigManager;
+import com.qhucy.configmanager.source.FileSource;
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -53,7 +54,7 @@ public class ConfigFileManager
     public ConfigFileManager( @NotNull final File configFile, @NotNull final Logger logger,
                               @Nullable final Object... fieldValueDefaultValue )
     {
-        super( configFile.getPath(), logger, fieldValueDefaultValue );
+        super( FileSource.fromFile( configFile ), logger, fieldValueDefaultValue );
 
         setConfigFile( configFile );
     }
