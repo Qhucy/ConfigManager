@@ -62,7 +62,7 @@ final class ConfigSourceTest
         @DisplayName( "getConfigSource returns correct value" )
         void getConfigSourceReturnsCorrectValue()
         {
-            assertEquals( configSource.getSource(), CONFIG_SOURCE );
+            assertEquals( configSource.getSourcePath(), CONFIG_SOURCE );
         }
 
     }
@@ -85,18 +85,18 @@ final class ConfigSourceTest
         @DisplayName( "Throws exception if setting config source to null" )
         void throwsExceptionIfSettingConfigSourceToNull()
         {
-            assertThrows( IllegalArgumentException.class, () -> configSource.setSource( null ) );
+            assertThrows( IllegalArgumentException.class, () -> configSource.setSourcePath( null ) );
         }
 
         @Test
         @DisplayName( "Setting config source changes config source" )
         void settingConfigSourceChangesConfigSource()
         {
-            assertEquals( configSource.getSource(), CONFIG_SOURCE );
+            assertEquals( configSource.getSourcePath(), CONFIG_SOURCE );
 
-            configSource.setSource( "another_config.yml" );
+            configSource.setSourcePath( "another_config.yml" );
 
-            assertEquals( "another_config.yml", configSource.getSource() );
+            assertEquals( "another_config.yml", configSource.getSourcePath() );
         }
 
     }
@@ -119,7 +119,7 @@ final class ConfigSourceTest
         {
             final ConfigSource configSource = new ConfigSource( CONFIG_SOURCE );
 
-            assertEquals( CONFIG_SOURCE, configSource.getSource() );
+            assertEquals( CONFIG_SOURCE, configSource.getSourcePath() );
         }
 
     }
