@@ -53,8 +53,8 @@ final class ConfigFileManagerTest
         @DisplayName( "Throws exception if file is not YAML file" )
         void throwsExceptionIfFileIsNotYAMLFile()
         {
-            assertThrows( InvalidPathException.class, () -> ConfigFileManager.assertValidConfigFile(
-                    new File( "src/test/java/com/qhucy/configmanager/text" + ".txt" ) ) );
+            assertThrows( InvalidPathException.class,
+                          () -> ConfigFileManager.assertValidConfigFile( new File( "src/test/resources/text.txt" ) ) );
         }
 
         @Test
@@ -62,7 +62,7 @@ final class ConfigFileManagerTest
         void doesNotThrowIfValidConfigFile()
         {
             assertDoesNotThrow( () -> ConfigFileManager.assertValidConfigFile(
-                    new File( "src/test/java/com/qhucy/configmanager" + "/dummy_config" + ".yml" ) ) );
+                    new File( "src/test/resources/dummy_config.yml" ) ) );
         }
 
     }
