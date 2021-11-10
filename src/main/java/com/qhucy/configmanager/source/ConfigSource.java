@@ -13,6 +13,20 @@ import org.jetbrains.annotations.NotNull;
 public class ConfigSource
 {
 
+    /**
+     * Returns a new ConfigSource object from a given file.
+     *
+     * @param source The text path to create the ConfigSource object from.
+     * @return A new ConfigSource object from a given file.
+     */
+    @NotNull
+    public static ConfigSource fromString( @NotNull final String source )
+    {
+        Validate.notNull( source, "Parameter source cannot be null." );
+
+        return new ConfigSource( source );
+    }
+
     // The text path that directs you to the source of where the config field and value map was loaded from.
     private String source;
 
