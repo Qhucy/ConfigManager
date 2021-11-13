@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 
 /**
- * Description.
+ * Utility class containing static methods to build config field and value maps.
  * <p>
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
