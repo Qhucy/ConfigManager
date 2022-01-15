@@ -1,7 +1,7 @@
 package com.qhucy.configmanager.resources;
 
-import com.qhucy.configmanager.file.ConfigSavableLoadable;
-import com.qhucy.configmanager.file.ConfigSavePriority;
+import com.qhucy.configmanager.file.ConfigStorable;
+import com.qhucy.configmanager.file.ConfigSaveEmphasis;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * MIT License - Copyright (c) 2021 Qhucy Sijyo.
  */
 public final class Dog
-        implements ConfigSavableLoadable
+        implements ConfigStorable
 {
 
     private String id;
@@ -68,7 +68,7 @@ public final class Dog
     }
 
     @Override
-    public void saveAsConfigObjectToFile( @NotNull ConfigSavePriority configSavePriority )
+    public void saveAsConfigObjectToFile( @NotNull ConfigSaveEmphasis configSaveEmphasis )
     {
 
     }
@@ -80,7 +80,7 @@ public final class Dog
     }
 
     @Override
-    public void loadAsConfigObjectFromFile( @NotNull ConfigSavePriority configSavePriority )
+    public void loadAsConfigObjectFromFile( @NotNull ConfigSaveEmphasis configSaveEmphasis )
     {
 
     }
