@@ -1,5 +1,6 @@
 package com.qhucy.configmanager.file;
 
+import com.qhucy.configmanager.util.TestingUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -11,7 +12,6 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -48,9 +48,9 @@ final class ConfigSourceTest
         @DisplayName( "Does not instantiate if required params are null" )
         void doesNotInstantiateIfReqParamsNull()
         {
-            assertThrows( NullPointerException.class, () -> new ConfigSource( ( String ) null ) );
-            assertThrows( NullPointerException.class, () -> new ConfigSource( ( Path ) null ) );
-            assertThrows( NullPointerException.class, () -> new ConfigSource( ( File ) null ) );
+            TestingUtil.assertParameter( () -> new ConfigSource( ( String ) null ) );
+            TestingUtil.assertParameter( () -> new ConfigSource( ( Path ) null ) );
+            TestingUtil.assertParameter( () -> new ConfigSource( ( File ) null ) );
         }
 
     }
@@ -96,9 +96,9 @@ final class ConfigSourceTest
         @DisplayName( "Throws exception if setting sourcePath to null" )
         void throwsExceptionIfSettingSourcePathToNull()
         {
-            assertThrows( NullPointerException.class, () -> configSource.setSourcePath( ( String ) null ) );
-            assertThrows( NullPointerException.class, () -> configSource.setSourcePath( ( Path ) null ) );
-            assertThrows( NullPointerException.class, () -> configSource.setSourcePath( ( File ) null ) );
+            TestingUtil.assertParameter( () -> configSource.setSourcePath( ( String ) null ) );
+            TestingUtil.assertParameter( () -> configSource.setSourcePath( ( Path ) null ) );
+            TestingUtil.assertParameter( () -> configSource.setSourcePath( ( File ) null ) );
         }
 
         @Test
@@ -142,7 +142,7 @@ final class ConfigSourceTest
         @DisplayName( "Throws exception if required params are null" )
         void throwsExceptionIfReqParamsNull()
         {
-            assertThrows( NullPointerException.class, () -> ConfigSource.fromString( null ) );
+            TestingUtil.assertParameter( () -> ConfigSource.fromString( null ) );
         }
 
         @Test
@@ -165,7 +165,7 @@ final class ConfigSourceTest
         @DisplayName( "Throws exception if required params are null" )
         void throwsExceptionIfReqParamsNull()
         {
-            assertThrows( NullPointerException.class, () -> ConfigSource.fromPath( null ) );
+            TestingUtil.assertParameter( () -> ConfigSource.fromPath( null ) );
         }
 
         @Test
@@ -188,7 +188,7 @@ final class ConfigSourceTest
         @DisplayName( "Throws exception if required params are null" )
         void throwsExceptionIfReqParamsNull()
         {
-            assertThrows( NullPointerException.class, () -> ConfigSource.fromFile( null ) );
+            TestingUtil.assertParameter( () -> ConfigSource.fromFile( null ) );
         }
 
         @Test
