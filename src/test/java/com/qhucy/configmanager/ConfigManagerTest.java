@@ -1,6 +1,6 @@
 package com.qhucy.configmanager;
 
-import com.qhucy.configmanager.source.ConfigSource;
+import com.qhucy.configmanager.file.ConfigSource;
 import com.qhucy.configmanager.util.TestingUtil;
 import com.qhucy.configmanager.value.ConfigValue;
 import com.qhucy.configmanager.value.ErrorValue;
