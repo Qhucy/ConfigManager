@@ -12,7 +12,7 @@ import java.nio.file.Path;
  *
  * @see com.qhucy.configmanager.ConfigManager
  * <p>
- * MIT License - Copyright (c) 2021 Qhucy Sijyo.
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
 @Getter
 @RequiredArgsConstructor

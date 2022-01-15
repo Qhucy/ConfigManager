@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @see ConfigSource
  * <p>
- * MIT License - Copyright (c) 2021 Qhucy Sijyo.
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
 @DisplayName( "ConfigSource Class Testing" )
 final class ConfigSourceTest
