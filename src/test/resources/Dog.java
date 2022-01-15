@@ -68,25 +68,25 @@ public final class Dog
     }
 
     @Override
-    public void saveAsConfigObjectToFile( @NotNull ConfigSaveEmphasis configSaveEmphasis )
+    public void saveToConfig( @NotNull ConfigSaveEmphasis configSaveEmphasis )
     {
 
     }
 
     @Override
-    public void saveAsConfigObjectToFile()
+    public void saveToConfig()
     {
 
     }
 
     @Override
-    public void loadAsConfigObjectFromFile( @NotNull ConfigSaveEmphasis configSaveEmphasis )
+    public void loadFromConfig( @NotNull ConfigSaveEmphasis configSaveEmphasis )
     {
 
     }
 
     @Override
-    public void loadAsConfigObjectFromFile()
+    public void loadFromConfig()
     {
 
     }
