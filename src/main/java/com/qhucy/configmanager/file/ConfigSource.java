@@ -109,4 +109,25 @@ public class ConfigSource
         this.sourcePath = sourceFile.getAbsolutePath();
     }
 
+    /**
+     * Returns the file located at the source path.
+     *
+     * @return The file located at the source path.
+     */
+    @NonNull
+    public File getFileFromPath()
+    {
+        return new File( this.sourcePath );
+    }
+
+    /**
+     * Returns if the source path leads to a file.
+     *
+     * @return If the source path leads to a file.
+     */
+    public boolean pathHasFile()
+    {
+        return getFileFromPath().exists() && getFileFromPath().isFile();
+    }
+
 }

@@ -10,7 +10,9 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit Testing for the ConfigSource class.
@@ -196,6 +198,54 @@ final class ConfigSourceTest
             final ConfigSource configSource = ConfigSource.fromFile( SOURCE_FILE );
 
             assertEquals( SOURCE_FILE.getAbsolutePath(), configSource.getSourcePath() );
+        }
+
+    }
+
+    @Nested
+    @DisplayName( "Getting file from path" )
+    final class PathFromFile
+    {
+
+        // The ConfigSource object used for unit testing.
+        private ConfigSource configSource;
+
+        @BeforeEach
+        void setUp()
+        {
+            this.configSource = new ConfigSource( SOURCE_PATH );
+        }
+
+        @Test
+        @DisplayName( "Getting file from path returns correct file" )
+        void gettingFileFromPathReturnsCorrectFile()
+        {
+            assertEquals( SOURCE_FILE, configSource.getFileFromPath() );
+        }
+
+        @Test
+        @DisplayName( "Returns true if path leads to a file" )
+        void returnsTrueIfPathLeadsToFile()
+        {
+            assertTrue( configSource.pathHasFile() );
+        }
+
+        @Test
+        @DisplayName( "Returns false if path leads to a directory" )
+        void returnsFalseIfPathLeadsToDirectory()
+        {
+            configSource.setSourcePath( new File( "src" ) );
+
+            assertFalse( configSource.pathHasFile() );
+        }
+
+        @Test
+        @DisplayName( "Returns false if path leads to nothing" )
+        void returnsFalseIfPathLeadsToNothing()
+        {
+            configSource.setSourcePath( "src/nofile.txt" );
+
+            assertFalse( configSource.pathHasFile() );
         }
 
     }
