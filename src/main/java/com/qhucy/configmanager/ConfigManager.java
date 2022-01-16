@@ -47,8 +47,6 @@ import java.util.logging.Logger;
 public class ConfigManager
 {
 
-    // find some way to save the comments if loaded from a file
-
     // The config field and value map.
     @NonNull
     private Map< String, ConfigValue > values   = new HashMap<>();

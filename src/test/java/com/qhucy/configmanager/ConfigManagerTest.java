@@ -31,8 +31,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class ConfigManagerTest
 {
 
-    // testing for loading and saving to file.
-
     // Configuration (config) field and value map used for constructing a ConfigManager.
     private final static HashMap< String, ConfigValue > CONFIG_VALUES = new HashMap<>();
 
