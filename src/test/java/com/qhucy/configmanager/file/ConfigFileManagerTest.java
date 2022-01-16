@@ -6,17 +6,16 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.file.InvalidPathException;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit Testing for the ConfigFileManager class.
  *
  * @see ConfigFileManager
  * <p>
- * MIT License - Copyright (c) 2021 Qhucy Sijyo.
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
 final class ConfigFileManagerTest
 {
@@ -30,39 +29,36 @@ final class ConfigFileManagerTest
         @DisplayName( "Throws exception if param configFile is null" )
         void throwsExceptionIfParamConfigFileIsNull()
         {
-            TestingUtil.assertParameter( () -> ConfigFileManager.assertValidConfigFile( null ) );
+            TestingUtil.assertParameter( () -> ConfigFileManager.isValidConfigFile( null ) );
         }
 
         @Test
         @DisplayName( "Throws exception if file does not exist" )
         void throwsExceptionIfFileDoesNotExist()
         {
-            assertThrows( InvalidPathException.class,
-                          () -> ConfigFileManager.assertValidConfigFile( new File( "invalid-file.xrvz" ) ) );
+            assertFalse( () -> ConfigFileManager.isValidConfigFile( new File( "invalid-file.xrvz" ) ) );
         }
 
         @Test
         @DisplayName( "Throws exception if file is not a file" )
         void throwsExceptionIfFileIsNotAFile()
         {
-            assertThrows( InvalidPathException.class,
-                          () -> ConfigFileManager.assertValidConfigFile( new File( "src/test" ) ) );
+            assertFalse( () -> ConfigFileManager.isValidConfigFile( new File( "src/test" ) ) );
         }
 
         @Test
         @DisplayName( "Throws exception if file is not YAML file" )
         void throwsExceptionIfFileIsNotYAMLFile()
         {
-            assertThrows( InvalidPathException.class,
-                          () -> ConfigFileManager.assertValidConfigFile( new File( "src/test/resources/text.txt" ) ) );
+            assertFalse( () -> ConfigFileManager.isValidConfigFile( new File( "src/test/resources/text.txt" ) ) );
         }
 
         @Test
         @DisplayName( "Does not throw if valid config file" )
         void doesNotThrowIfValidConfigFile()
         {
-            assertDoesNotThrow( () -> ConfigFileManager.assertValidConfigFile(
-                    new File( "src/test/resources/dummy_config.yml" ) ) );
+            assertTrue(
+                    () -> ConfigFileManager.isValidConfigFile( new File( "src/test/resources/dummy_config.yml" ) ) );
         }
 
     }
