@@ -1,12 +1,31 @@
 package com.qhucy.configmanager;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.qhucy.configmanager.file.ConfigComment;
 import com.qhucy.configmanager.file.ConfigSource;
 import com.qhucy.configmanager.value.ConfigValue;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import org.apache.commons.lang.Validate;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.tomlj.Toml;
+import org.tomlj.TomlParseResult;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,19 +42,27 @@ import java.util.logging.Logger;
  * <p>
  * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
+@Setter
+@Getter
 public class ConfigManager
 {
 
+    // find some way to save the comments if loaded from a file
+
     // The config field and value map.
-    private Map< String, ConfigValue > values = new HashMap<>();
+    @NonNull
+    private Map< String, ConfigValue > values   = new HashMap<>();
+    @NonNull
+    private ConfigComment[]            comments = new ConfigComment[]{};
 
     // The source of the config field and value map.
+    @NonNull
     private ConfigSource configSource;
-    // The accessing plugin's logger that is used to log missing, invalid, and unknown config
-    // values.
+    // The accessing plugin's logger that is used to log missing, invalid, and unknown config values.
+    @NonNull
     private Logger       logger;
 
-    // Whether or not there are missing values in the loaded config field and value map.
+    // Whether there are missing values in the loaded config field and value map.
     private boolean missingValues = false;
 
     /**
@@ -47,17 +74,16 @@ public class ConfigManager
      *                     config values.
      */
     public ConfigManager( @Nullable final HashMap< String, ConfigValue > values,
-                          @NotNull final ConfigSource configSource, @NotNull final Logger logger )
+                          @NonNull final ConfigSource configSource, @NonNull final Logger logger )
     {
-        setConfigValues( values );
+        setValues( ( values == null ) ? new HashMap<>() : values );
 
         setConfigSource( configSource );
         setLogger( logger );
     }
 
     /**
-     * Instantiates a ConfigManager from a config field and value map and a config default field and
-     * value map.
+     * Instantiates a ConfigManager from a config field and value map and a config default field and value map.
      *
      * @param values        The config field and value map.
      * @param defaultValues The default config field and value map.
@@ -67,7 +93,7 @@ public class ConfigManager
      */
     public ConfigManager( @Nullable final HashMap< String, Object > values,
                           @Nullable final HashMap< String, Object > defaultValues,
-                          @NotNull final ConfigSource configSource, @NotNull final Logger logger )
+                          @NonNull final ConfigSource configSource, @NonNull final Logger logger )
     {
         transferValues( values );
         transferDefaultValues( defaultValues );
@@ -86,12 +112,10 @@ public class ConfigManager
      * @param logger        The accessing plugin's logger that is used to log missing and invalid
      *                      config values.
      */
-    public ConfigManager( @NotNull final List< String > fields, @Nullable final List< Object > values,
-                          @Nullable final List< Object > defaultValues, @NotNull final ConfigSource configSource,
-                          @NotNull final Logger logger )
+    public ConfigManager( @NonNull final List< String > fields, @Nullable final List< Object > values,
+                          @Nullable final List< Object > defaultValues, @NonNull final ConfigSource configSource,
+                          @NonNull final Logger logger )
     {
-        Validate.notNull( fields, "Parameter fields cannot be null." );
-
         for ( int i = 0; i < fields.size(); ++i )
         {
             final Object value = ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
@@ -114,11 +138,9 @@ public class ConfigManager
      * @param logger       The accessing plugin's logger that is used to log missing and invalid
      *                     config values.
      */
-    public ConfigManager( @NotNull final List< String > fields, @Nullable final List< Object > values,
-                          @NotNull final ConfigSource configSource, @NotNull final Logger logger )
+    public ConfigManager( @NonNull final List< String > fields, @Nullable final List< Object > values,
+                          @NonNull final ConfigSource configSource, @NonNull final Logger logger )
     {
-        Validate.notNull( fields, "Parameter fields cannot be null." );
-
         for ( int i = 0; i < fields.size(); ++i )
         {
             final Object value = ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
@@ -140,33 +162,13 @@ public class ConfigManager
      * @param fieldValueDefaultValue Alternating String fields and its respective value and default
      *                               value to build a new config field and value map.
      */
-    public ConfigManager( @NotNull final ConfigSource configSource, @NotNull final Logger logger,
+    public ConfigManager( @NonNull final ConfigSource configSource, @NonNull final Logger logger,
                           @Nullable final Object... fieldValueDefaultValue )
     {
         setConfigSource( configSource );
         setLogger( logger );
 
-        setConfigValues( ConfigBuilder.buildConfigValueMapFromObjects( fieldValueDefaultValue ) );
-    }
-
-    /**
-     * Returns the values class attribute.
-     *
-     * @return The values class attribute.
-     */
-    private Map< String, ConfigValue > getValues()
-    {
-        return values;
-    }
-
-    /**
-     * Sets the values class attribute to another value.
-     *
-     * @param values The new values class attribute value.
-     */
-    public final void setConfigValues( @Nullable final HashMap< String, ConfigValue > values )
-    {
-        this.values = ( values == null ) ? new HashMap<>() : values;
+        setValues( ConfigBuilder.buildConfigValueMapFromObjects( fieldValueDefaultValue ) );
     }
 
     /**
@@ -179,7 +181,7 @@ public class ConfigManager
      *                    fields of the parent.
      * @return The list of nested fields under a given field in the config key and value map.
      */
-    public final List< String > getConfigSectionFields( @NotNull final String parentField, final boolean fullFields,
+    public final List< String > getConfigSectionFields( @NonNull final String parentField, final boolean fullFields,
                                                         final boolean deepFields )
     {
         Validate.notNull( parentField, "Parameter parentField cannot be null." );
@@ -213,10 +215,8 @@ public class ConfigManager
      * @see ConfigValue
      */
     @Nullable
-    public final ConfigValue getConfigValue( @NotNull final String field )
+    public final ConfigValue getConfigValue( @NonNull final String field )
     {
-        Validate.notNull( field, "Parameter field cannot be null." );
-
         if ( getValues().containsKey( field ) )
         {
             return getValues().get( field );
@@ -235,11 +235,26 @@ public class ConfigManager
      * @param field       The field to set in the config field and value map.
      * @param configValue The value to attach to the field in the config field and value map.
      */
-    public final void setConfigValue( @NotNull final String field, @Nullable final ConfigValue configValue )
+    public final void setConfigValue( @NonNull final String field, @Nullable final ConfigValue configValue )
     {
-        Validate.notNull( field, "Parameter field cannot be null." );
-
         getValues().put( field, Objects.requireNonNullElseGet( configValue, () -> new ConfigValue( null, null ) ) );
+    }
+
+    /**
+     * Sets the config field and value map.
+     *
+     * @param values The config field and value map.
+     */
+    public final void setValues( @Nullable final Map< String, ConfigValue > values )
+    {
+        if ( values == null )
+        {
+            this.values.clear();
+        }
+        else
+        {
+            this.values = values;
+        }
     }
 
     /**
@@ -250,10 +265,8 @@ public class ConfigManager
      * @return The value at a given field in the config field and value map.
      */
     @Nullable
-    public final Object getValue( @NotNull final String field )
+    public final Object getValue( @NonNull final String field )
     {
-        Validate.notNull( field, "Parameter field cannot be null." );
-
         if ( getValues().containsKey( field ) )
         {
             final ConfigValue configValue = getValues().get( field );
@@ -282,10 +295,8 @@ public class ConfigManager
      * @param field  The field in the config field and value map.
      * @param object The new value for the field in the config field and value map.
      */
-    public final void setValue( @NotNull final String field, @Nullable final Object object )
+    public final void setValue( @NonNull final String field, @Nullable final Object object )
     {
-        Validate.notNull( field, "Parameter field cannot be null." );
-
         if ( getValues().containsKey( field ) )
         {
             getValues().get( field ).setValue( object );
@@ -334,10 +345,8 @@ public class ConfigManager
      * @return The default value at a given field in the config field and value map.
      */
     @Nullable
-    public final Object getDefaultValue( @NotNull final String field )
+    public final Object getDefaultValue( @NonNull final String field )
     {
-        Validate.notNull( field, "Parameter field cannot be null." );
-
         if ( getValues().containsKey( field ) )
         {
             final ConfigValue configValue = getValues().get( field );
@@ -358,10 +367,8 @@ public class ConfigManager
      * @param field  The field in the config field and value map.
      * @param object The new default value for the field in the config field and value map.
      */
-    public final void setDefaultValue( @NotNull final String field, @Nullable final Object object )
+    public final void setDefaultValue( @NonNull final String field, @Nullable final Object object )
     {
-        Validate.notNull( field, "Parameter field cannot be null." );
-
         if ( getValues().containsKey( field ) )
         {
             getValues().get( field ).setDefaultValue( object );
@@ -404,80 +411,13 @@ public class ConfigManager
     }
 
     /**
-     * Returns the configSource class attribute.
-     *
-     * @return the configSource class attribute.
-     */
-    public final ConfigSource getConfigSource()
-    {
-        return configSource;
-    }
-
-    /**
-     * Sets the configSource class attribute to another value.
-     *
-     * @param configSource The new configSource class attribute.
-     */
-    public final void setConfigSource( @NotNull final ConfigSource configSource )
-    {
-        Validate.notNull( configSource, "Parameter configSource cannot be null." );
-
-        this.configSource = configSource;
-    }
-
-    /**
-     * Returns the logger class attribute.
-     *
-     * @return The logger class attribute.
-     */
-    public final Logger getLogger()
-    {
-        return logger;
-    }
-
-    /**
-     * Sets the logger class attribute to another value.
-     *
-     * @param logger The new logger class attribute.
-     */
-    public final void setLogger( @NotNull final Logger logger )
-    {
-        Validate.notNull( logger, "Parameter logger cannot be null." );
-
-        this.logger = logger;
-    }
-
-    /**
-     * Returns the missingValues class attribute.
-     *
-     * @return the missingValues class attribute.
-     */
-    public final boolean isMissingValues()
-    {
-        return missingValues;
-    }
-
-    /**
-     * Sets the missingValues class attribute to another value.
-     *
-     * @param missingValues The new missingValues class attribute.
-     */
-    public final void setMissingValues( final boolean missingValues )
-    {
-        this.missingValues = missingValues;
-    }
-
-    /**
      * Logs a list of messages separately with a given log level.
      *
      * @param level    The log level of the log: INFO, WARNING, SEVERE.
      * @param messages The list of messages to log separately.
      */
-    public void logMessage( @NotNull final Level level, @NotNull final String... messages )
+    public void logMessage( @NonNull final Level level, @NonNull final String... messages )
     {
-        Validate.notNull( level, "Parameter level cannot be null." );
-        Validate.notNull( messages, "Parameter messages cannot be null." );
-
         if ( messages.length > 0 )
         {
             for ( final String message : messages )
@@ -499,13 +439,9 @@ public class ConfigManager
      * @param replacement   The replacement value from the default config field and value map.
      * @param extraMessages Extra messages to separately log afterwards.
      */
-    public void logMissingValueWithReplacement( @NotNull final String field, @NotNull final String replacement,
-                                                @NotNull final String... extraMessages )
+    public void logMissingValueWithReplacement( @NonNull final String field, @NonNull final String replacement,
+                                                @NonNull final String... extraMessages )
     {
-        Validate.notNull( field, "Parameter field cannot be null." );
-        Validate.notNull( replacement, "Parameter replacement cannot be null." );
-        Validate.notNull( extraMessages, "Parameter extraMessages cannot be null." );
-
         logMessage( Level.WARNING, String.format(
                 "Field '%s' does not exist in the config field and value map " + "from " + "'%s'. " + "Using replacement value %s " + "from " + "the " + "default config " + "field" + " " + "and value map" + ".",
                 field, getConfigSource(), replacement ) );
@@ -525,11 +461,8 @@ public class ConfigManager
      * @param field         The missing field in the config field and value map.
      * @param extraMessages Extra messages to separately log afterwards.
      */
-    public void logMissingValue( @NotNull final String field, @NotNull final String... extraMessages )
+    public void logMissingValue( @NonNull final String field, @NonNull final String... extraMessages )
     {
-        Validate.notNull( field, "Parameter field cannot be null." );
-        Validate.notNull( extraMessages, "Parameter extraMessages cannot be null." );
-
         logMessage( Level.SEVERE, String.format(
                 "Field '%s' does not exist in the config field and value map " + "from " + "'%s'. " + "No replacements were found " + "and " + "the plugin " + "now emits " + "undefined behavior which is" + " very " + "dangerous!",
                 field, getConfigSource() ) );
@@ -542,9 +475,136 @@ public class ConfigManager
         setMissingValues( true );
     }
 
-    public final void saveToFile( @NotNull final File configFile )
+    /**
+     * Saves the ConfigManager data to a config file.
+     *
+     * @param configFile The config file that will be written to.
+     */
+    public final void saveToFile( @NonNull final File configFile )
+            throws IOException
     {
+        final FileWriter fileWriter = new FileWriter( configFile );
 
+        // Load all values into a map.
+        final Map< String, Object > saveValues = new HashMap<>();
+
+        for ( Map.Entry< String, ConfigValue > entry : getValues().entrySet() )
+        {
+            saveValues.put( entry.getKey(), entry.getValue().getValue() );
+        }
+
+        // Saving hashmap data into the file.
+        if ( configFile.getPath().endsWith( ".yml" ) || configFile.getPath().endsWith( ".yaml" ) )
+        {
+
+        }
+        else if ( configFile.getPath().endsWith( ".toml" ) )
+        {
+
+        }
+        else if ( configFile.getPath().endsWith( ".json" ) )
+        {
+            final Gson gson = new GsonBuilder().create();
+            final String jsonString = gson.toJson( saveValues );
+
+            fileWriter.write( jsonString );
+        }
+        else
+        {
+            fileWriter.close();
+
+            throw new IllegalArgumentException(
+                    "Unable to load configFile at '" + configFile.getAbsolutePath() + "', this API only supports .yml .yaml .toml and .json files." );
+        }
+
+        // Writing comments to the file.
+
+
+        fileWriter.close();
+    }
+
+    /**
+     * Loads a ConfigManager from an existing file.
+     *
+     * @param configFile The config source file.
+     * @param logger     The logger for the plugin.
+     * @return A ConfigManager from an existing file.
+     * @throws FileNotFoundException If the given file does not exist.
+     */
+    public static ConfigManager loadFromFile( @NonNull final File configFile, @NonNull final Logger logger )
+            throws IOException, ParseException
+    {
+        final ConfigManager configManager = new ConfigManager( null, new ConfigSource( configFile ), logger );
+
+        // Reset all values in the config field and value map.
+        configManager.getValues().clear();
+
+        // Load all config values from the file.
+        if ( configFile.getPath().endsWith( ".yml" ) || configFile.getPath().endsWith( ".yaml" ) )
+        {
+            final InputStream inputStream = new FileInputStream( configFile );
+            final Yaml yaml = new Yaml();
+            final Map< String, Object > valueMap = yaml.load( inputStream );
+
+            for ( final String key : valueMap.keySet() )
+            {
+                configManager.setValue( key, valueMap.get( key ) );
+            }
+        }
+        else if ( configFile.getPath().endsWith( ".toml" ) )
+        {
+            final TomlParseResult tomlParseResult = Toml.parse( configFile.getPath() );
+
+            configManager.setMissingValues( tomlParseResult.hasErrors() );
+
+            for ( final String key : tomlParseResult.dottedKeySet( true ) )
+            {
+                configManager.setValue( key, tomlParseResult.get( key ) );
+            }
+        }
+        else if ( configFile.getPath().endsWith( ".json" ) )
+        {
+            final JSONParser jsonParser = new JSONParser();
+            final JsonObject jsonObject = ( JsonObject ) jsonParser.parse( new FileReader( configFile ) );
+
+            for ( final Map.Entry< String, JsonElement > entry : jsonObject.entrySet() )
+            {
+                configManager.setValue( entry.getKey(), entry.getValue() );
+            }
+        }
+        else
+        {
+            throw new IllegalArgumentException(
+                    "Unable to load configFile at '" + configFile.getAbsolutePath() + "', this API only supports .yml .yaml .toml and .json files." );
+        }
+
+        // Load all comments from the file.
+        final FileReader fileReader = new FileReader( configFile );
+        final BufferedReader bufferedReader = new BufferedReader( fileReader );
+
+        final List< ConfigComment > comments = new ArrayList<>();
+        String line;
+        int i = 0;
+
+        while ( ( line = bufferedReader.readLine() ) != null )
+        {
+            ++i;
+
+            if ( line.isEmpty() || line.startsWith( "#" ) )
+            {
+                comments.add( new ConfigComment( i, line ) );
+            }
+        }
+
+        configManager.setComments( comments.toArray( new ConfigComment[ 0 ] ) );
+
+        bufferedReader.close();
+        fileReader.close();
+
+        configManager.setConfigSource( new ConfigSource( configFile ) );
+        configManager.setLogger( logger );
+
+        return configManager;
     }
 
 }

@@ -1,8 +1,6 @@
 package com.qhucy.configmanager.file;
 
 import com.qhucy.configmanager.ConfigManager;
-import com.qhucy.configmanager.ConfigManagerBungee;
-import com.qhucy.configmanager.ConfigManagerSpigot;
 import lombok.NonNull;
 
 /**

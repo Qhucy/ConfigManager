@@ -31,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class ConfigManagerTest
 {
 
+    // testing for loading and saving to file.
+
     // Configuration (config) field and value map used for constructing a ConfigManager.
     private final static HashMap< String, ConfigValue > CONFIG_VALUES = new HashMap<>();
 
@@ -393,7 +395,7 @@ final class ConfigManagerTest
         @DisplayName( "Setting the config values to null makes map empty" )
         void settingTheConfigValuesToNullMakesMapEmpty()
         {
-            configManager.setConfigValues( null );
+            configManager.setValues( null );
 
             assertNull( configManager.getValue( "int" ) );
         }
@@ -408,7 +410,7 @@ final class ConfigManagerTest
 
             temp.put( "hello", new ConfigValue( 8.2, 0.0 ) );
 
-            configManager.setConfigValues( temp );
+            configManager.setValues( temp );
 
             assertEquals( 8.2, configManager.getValue( "hello" ) );
             assertEquals( 0.0, configManager.getDefaultValue( "hello" ) );
@@ -556,7 +558,7 @@ final class ConfigManagerTest
         {
             configManager.setConfigSource( new ConfigSource( "config.yml" ) );
 
-            assertEquals( "config.yml", configManager.getConfigSource() );
+            assertEquals( "config.yml", configManager.getConfigSource().getSourcePath() );
         }
 
         @Test

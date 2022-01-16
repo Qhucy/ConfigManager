@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -88,6 +89,7 @@ public class ConfigFileManager
     }
 
     public void saveToFile()
+            throws IOException
     {
         saveToFile( getConfigFile() );
     }
