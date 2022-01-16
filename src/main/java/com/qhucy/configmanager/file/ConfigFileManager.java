@@ -1,12 +1,14 @@
 package com.qhucy.configmanager.file;
 
 import com.qhucy.configmanager.ConfigManager;
+import lombok.NonNull;
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.nio.file.InvalidPathException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -14,37 +16,37 @@ import java.util.logging.Logger;
  *
  * @see ConfigManager
  * <p>
- * MIT License - Copyright (c) 2021 Qhucy Sijyo.
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
 public class ConfigFileManager
         extends ConfigManager
 {
 
+    // The list of supported config file extensions.
+    private final static List< String > VALID_EXTENSIONS = Arrays.asList( "yml", "yaml", "toml", "json" );
+
     /**
-     * Asserts that the given file is a valid configuration file.
+     * Returns true if the given file is a valid configuration file.
      *
      * @param configFile The config file.
-     * @throws InvalidPathException If the given config file is invalid.
+     * @return True if the given file is a valid configuration file.
      */
-    public static void assertValidConfigFile( @NotNull final File configFile ) throws
-                                                                               InvalidPathException
+    public static boolean isValidConfigFile( @NonNull final File configFile )
     {
-        Validate.notNull( configFile, "Parameter configFile cannot be null." );
+        if ( !configFile.exists() || !configFile.isFile() )
+        {
+            return false;
+        }
 
-        final String path = configFile.getPath();
+        for ( final String extension : VALID_EXTENSIONS )
+        {
+            if ( configFile.getPath().endsWith( "." + extension ) )
+            {
+                return true;
+            }
+        }
 
-        if ( !configFile.exists() )
-        {
-            throw new InvalidPathException( path, "Path to the config file points to nothing." );
-        }
-        else if ( !configFile.isFile() )
-        {
-            throw new InvalidPathException( path, "Path to the config file does not point to a " + "file." );
-        }
-        else if ( !path.endsWith( ".yml" ) && !path.endsWith( ".toml" ) )
-        {
-            throw new InvalidPathException( path, "Path does not point to a valid configuration " + "file." );
-        }
+        return false;
     }
 
     // The file that the config field and value map is loaded from.
