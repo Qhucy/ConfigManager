@@ -10,6 +10,14 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testing class for ConfigBuilder.
+ *
+ * @see ConfigBuilder
+ * <p>
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
+ */
+@DisplayName( "ConfigBuilder Class Testing" )
 class ConfigBuilderTest
 {
 

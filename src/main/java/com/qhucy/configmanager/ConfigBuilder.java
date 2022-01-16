@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * Utility class containing static methods to build config field and value maps.
  * <p>
- * MIT License - Copyright (c) 2021 Qhucy Sijyo.
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
 public final class ConfigBuilder
 {
