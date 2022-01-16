@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @see ConfigValue
  * <p>
- * MIT License - Copyright (c) 2021 Qhucy Sijyo.
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
 @DisplayName( "ConfigValue Class Testing" )
 final class ConfigValueTest
@@ -77,7 +77,7 @@ final class ConfigValueTest
         @DisplayName( "hasValue false when error value" )
         void hasValueFalseWhenError()
         {
-            final ConfigValue configValue = new ConfigValue( ErrorValue.MISSING, DEFAULT_VALUE );
+            final ConfigValue configValue = new ConfigValue( null, DEFAULT_VALUE );
 
             assertFalse( configValue.hasValue() );
         }
@@ -102,7 +102,7 @@ final class ConfigValueTest
         @DisplayName( "hasDefaultValue false when error value" )
         void hasDefaultValueFalseWhenError()
         {
-            final ConfigValue configValue = new ConfigValue( VALUE, ErrorValue.MISSING );
+            final ConfigValue configValue = new ConfigValue( VALUE, null );
 
             assertFalse( configValue.hasDefaultValue() );
         }

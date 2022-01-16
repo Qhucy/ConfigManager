@@ -1,18 +1,24 @@
 package com.qhucy.configmanager.value;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Class that stores a value and default value for a field in a config field and value map.
  * <p>
- * MIT License - Copyright (c) 2021 Qhucy Sijyo.
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
+@Setter
+@Getter
 public class ConfigValue
 {
 
     // The value for a field in a config field and value map.
+    @Nullable
     private Object value;
     // The default value for a field in a config field and value map.
+    @Nullable
     private Object defaultValue;
 
     /**
@@ -35,70 +41,27 @@ public class ConfigValue
     public ConfigValue( @Nullable final Object value )
     {
         setValue( value );
-        setDefaultValue( ErrorValue.MISSING );
+        setDefaultValue( null );
     }
 
     /**
-     * Returns the value class attribute.
+     * Returns if the value class attribute is stored without a null value.
      *
-     * @return The value class attribute.
-     */
-    @Nullable
-    public final Object getValue()
-    {
-        return value;
-    }
-
-    /**
-     * Sets the value class attribute to another value.
-     *
-     * @param value The new value class attribute.
-     */
-    public final void setValue( @Nullable final Object value )
-    {
-        this.value = value;
-    }
-
-    /**
-     * Returns if the value class attribute is stored without an error value.
-     *
-     * @return If the value class attribute is stored without an error value.
+     * @return If the value class attribute is stored without a null value.
      */
     public final boolean hasValue()
     {
-        return !( getValue() instanceof ErrorValue );
+        return getValue() != null;
     }
 
     /**
-     * Returns the defaultValue class attribute.
+     * Returns if the defaultValue class attribute is stored without a null value.
      *
-     * @return The defaultValue class attribute.
-     */
-    @Nullable
-    public final Object getDefaultValue()
-    {
-        return defaultValue;
-    }
-
-    /**
-     * Sets the defaultValue class attribute to another value.
-     *
-     * @param defaultValue The new defaultValue class attribute.
-     * @see ErrorValue
-     */
-    public final void setDefaultValue( @Nullable final Object defaultValue )
-    {
-        this.defaultValue = defaultValue;
-    }
-
-    /**
-     * Returns if the defaultValue class attribute is stored without an error value.
-     *
-     * @return If the defaultValue class attribute is stored without an error value.
+     * @return If the defaultValue class attribute is stored without a null value.
      */
     public final boolean hasDefaultValue()
     {
-        return !( getDefaultValue() instanceof ErrorValue );
+        return getDefaultValue() != null;
     }
 
 }
