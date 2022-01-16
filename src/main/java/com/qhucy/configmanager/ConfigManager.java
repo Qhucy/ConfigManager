@@ -2,7 +2,6 @@ package com.qhucy.configmanager;
 
 import com.qhucy.configmanager.file.ConfigSource;
 import com.qhucy.configmanager.value.ConfigValue;
-import com.qhucy.configmanager.value.ErrorValue;
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @see ConfigValue
  * <p>
- * MIT License - Copyright (c) 2021 Qhucy Sijyo.
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
 public class ConfigManager
 {
@@ -293,7 +292,7 @@ public class ConfigManager
         }
         else
         {
-            getValues().put( field, new ConfigValue( object, ErrorValue.MISSING ) );
+            getValues().put( field, new ConfigValue( object, null ) );
         }
     }
 
@@ -322,7 +321,7 @@ public class ConfigManager
                 }
                 else
                 {
-                    getValues().put( entry.getKey(), new ConfigValue( entry.getValue(), ErrorValue.MISSING ) );
+                    getValues().put( entry.getKey(), new ConfigValue( entry.getValue(), null ) );
                 }
             }
         }
@@ -369,7 +368,7 @@ public class ConfigManager
         }
         else
         {
-            getValues().put( field, new ConfigValue( ErrorValue.MISSING, object ) );
+            getValues().put( field, new ConfigValue( null, object ) );
         }
     }
 
@@ -398,7 +397,7 @@ public class ConfigManager
                 }
                 else
                 {
-                    getValues().put( entry.getKey(), new ConfigValue( ErrorValue.MISSING, entry.getValue() ) );
+                    getValues().put( entry.getKey(), new ConfigValue( null, entry.getValue() ) );
                 }
             }
         }

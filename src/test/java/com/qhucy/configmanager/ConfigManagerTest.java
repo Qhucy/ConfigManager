@@ -3,7 +3,6 @@ package com.qhucy.configmanager;
 import com.qhucy.configmanager.file.ConfigSource;
 import com.qhucy.configmanager.util.TestingUtil;
 import com.qhucy.configmanager.value.ConfigValue;
-import com.qhucy.configmanager.value.ErrorValue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @see ConfigManager
  * <p>
- * MIT License - Copyright (c) 2021 Qhucy Sijyo.
+ * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
 @DisplayName( "ConfigManager Class Testing" )
 final class ConfigManagerTest
@@ -61,8 +60,8 @@ final class ConfigManagerTest
         CONFIG_VALUES.put( "int", new ConfigValue( 3, 7 ) );
         CONFIG_VALUES.put( "double", new ConfigValue( 2.5, 9.2 ) );
         CONFIG_VALUES.put( "string", new ConfigValue( "hello", "goodbye" ) );
-        CONFIG_VALUES.put( "def", new ConfigValue( ErrorValue.MISSING, 1.5 ) );
-        CONFIG_VALUES.put( "all-missing", new ConfigValue( ErrorValue.MISSING, ErrorValue.MISSING ) );
+        CONFIG_VALUES.put( "def", new ConfigValue( null, 1.5 ) );
+        CONFIG_VALUES.put( "all-missing", new ConfigValue( null, null ) );
         CONFIG_VALUES.put( "nested.value", new ConfigValue( true, false ) );
 
         VALUES.put( "int", 3 );
