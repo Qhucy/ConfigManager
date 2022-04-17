@@ -7,12 +7,10 @@ import com.qhucy.configmanager.ConfigManager;
  *
  * @see ConfigManager
  * @see ConfigFileManager
- * @see ConfigManagerSpigot
- * @see ConfigManagerBungee
  * <p>
  * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
-public enum ConfigSaveEmphasis
+public enum StorageType
 {
 
     /**

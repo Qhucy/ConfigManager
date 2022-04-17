@@ -8,19 +8,17 @@ import lombok.NonNull;
  *
  * @see ConfigManager
  * @see ConfigFileManager
- * @see ConfigManagerSpigot
- * @see ConfigManagerBungee
  * <p>
  * MIT License - Copyright (c) 2022 Qhucy Sijyo.
  */
 public interface ConfigStorable
 {
 
-    void saveToConfig( @NonNull final ConfigSaveEmphasis configSaveEmphasis );
+    void saveToConfig( @NonNull final StorageType storageType);
 
     void saveToConfig();
 
-    void loadFromConfig( @NonNull final ConfigSaveEmphasis configSaveEmphasis );
+    void loadFromConfig( @NonNull final StorageType storageType);
 
     void loadFromConfig();
 

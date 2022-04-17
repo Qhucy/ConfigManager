@@ -1,7 +1,7 @@
 package com.qhucy.configmanager.resources;
 
 import com.qhucy.configmanager.file.ConfigStorable;
-import com.qhucy.configmanager.file.ConfigSaveEmphasis;
+import com.qhucy.configmanager.file.StorageType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -68,7 +68,7 @@ public final class Dog
     }
 
     @Override
-    public void saveToConfig( @NotNull ConfigSaveEmphasis configSaveEmphasis )
+    public void saveToConfig( @NotNull StorageType storageType)
     {
 
     }
@@ -80,7 +80,7 @@ public final class Dog
     }
 
     @Override
-    public void loadFromConfig( @NotNull ConfigSaveEmphasis configSaveEmphasis )
+    public void loadFromConfig( @NotNull StorageType storageType)
     {
 
     }
