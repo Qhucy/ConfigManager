@@ -27,10 +27,10 @@ public class ConfigValue
      * @param value        The value for the field in a config field and value map.
      * @param defaultValue The default value for the field in a config field and value map.
      */
-    public ConfigValue( @Nullable final Object value, @Nullable final Object defaultValue )
+    public ConfigValue(@Nullable final Object value, @Nullable final Object defaultValue)
     {
-        setValue( value );
-        setDefaultValue( defaultValue );
+        setValue(value);
+        setDefaultValue(defaultValue);
     }
 
     /**
@@ -38,10 +38,10 @@ public class ConfigValue
      *
      * @param value The value for the field in a config field and value map.
      */
-    public ConfigValue( @Nullable final Object value )
+    public ConfigValue(@Nullable final Object value)
     {
-        setValue( value );
-        setDefaultValue( null );
+        setValue(value);
+        setDefaultValue(null);
     }
 
     /**
