@@ -9,8 +9,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,10 +48,13 @@ final class ConfigManagerTest
     // List of default values used for constructing a ConfigManager.
     private final static ArrayList< Object > DEFAULT_VALUES_LIST = new ArrayList<>();
 
+    // Default config file.
+    private final static File                    CONFIG_FILE   = new File( "src/test/resources/dummy_config.yml" );
+    private final static Map< String, String[] > COMMENTS      = new HashMap<>();
     // Random config source file path used for constructing a ConfigManager.
-    private final static ConfigSource CONFIG_SOURCE = new ConfigSource( "plugins/config.yml" );
+    private final static ConfigSource            CONFIG_SOURCE = new ConfigSource( "plugins/config.yml" );
     // Basic logger used for constructing a ConfigManager.
-    private final static Logger       LOGGER        = Logger.getLogger( ConfigManagerTest.class.getName() );
+    private final static Logger                  LOGGER        = Logger.getLogger( ConfigManagerTest.class.getName() );
 
     /**
      * Puts fields and values into the config value field and value maps.
@@ -88,6 +93,8 @@ final class ConfigManagerTest
         DEFAULT_VALUES_LIST.add( 9.2 );
         DEFAULT_VALUES_LIST.add( "goodbye" );
         DEFAULT_VALUES_LIST.add( false );
+
+        COMMENTS.put( "int", new String[]{"# This is an int."} );
     }
 
     @Nested
@@ -105,6 +112,7 @@ final class ConfigManagerTest
                     () -> new ConfigManager( FIELDS, VALUES_LIST, DEFAULT_VALUES_LIST, CONFIG_SOURCE, LOGGER ) );
             assertDoesNotThrow( () -> new ConfigManager( FIELDS, VALUES_LIST, CONFIG_SOURCE, LOGGER ) );
             assertDoesNotThrow( () -> new ConfigManager( CONFIG_SOURCE, LOGGER, "field", 1, 2 ) );
+            assertDoesNotThrow( () -> new ConfigManager( CONFIG_FILE, LOGGER ) );
         }
 
         @Test
@@ -147,6 +155,14 @@ final class ConfigManagerTest
                     () -> new ConfigManager( new ArrayList<>(), null, null, CONFIG_SOURCE, null ) );
             TestingUtil.assertParameter( () -> new ConfigManager( new ArrayList<>(), null, CONFIG_SOURCE, null ) );
             TestingUtil.assertParameter( () -> new ConfigManager( CONFIG_SOURCE, null, "field", 1, 2 ) );
+            TestingUtil.assertParameter( () -> new ConfigManager( CONFIG_FILE, null ) );
+        }
+
+        @Test
+        @DisplayName( "Throws exception if param configFile is null" )
+        void throwsExceptionIfParamConfigFileIsNull()
+        {
+            TestingUtil.assertParameter( () -> new ConfigManager( null, LOGGER ) );
         }
 
         @Test
@@ -353,6 +369,13 @@ final class ConfigManagerTest
         }
 
         @Test
+        @DisplayName( "Getting the comments class attribute" )
+        void gettingTheCommentsClassAttribute()
+        {
+            assertEquals( COMMENTS, configManager.getComments() );
+        }
+
+        @Test
         @DisplayName( "Getting the configSource class attribute" )
         void gettingTheConfigSourceClassAttribute()
         {
@@ -541,6 +564,22 @@ final class ConfigManagerTest
             assertEquals( 1, configManager.getValue( "new-value" ) );
 
             assertEquals( 5, configManager.getDefaultValue( "int" ) );
+        }
+
+        @Test
+        @DisplayName( "setComments throws if param comments is null" )
+        void setCommentsThrowsIfParamCommentsIsNull()
+        {
+            TestingUtil.assertParameter( () -> configManager.setComments( null ) );
+        }
+
+        @Test
+        @DisplayName( "Setting comments" )
+        void settingComments()
+        {
+            configManager.setComments( COMMENTS );
+
+            assertEquals( COMMENTS, configManager.getComments() );
         }
 
         @Test

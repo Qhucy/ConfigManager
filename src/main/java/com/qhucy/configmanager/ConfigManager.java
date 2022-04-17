@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.qhucy.configmanager.file.ConfigComment;
 import com.qhucy.configmanager.file.ConfigSource;
 import com.qhucy.configmanager.value.ConfigValue;
 import lombok.Getter;
@@ -50,8 +49,9 @@ public class ConfigManager
     // The config field and value map.
     @NonNull
     private Map< String, ConfigValue > values   = new HashMap<>();
+    // The config field and comment lsit map.
     @NonNull
-    private ConfigComment[]            comments = new ConfigComment[]{};
+    private Map< String, String[] >    comments = new HashMap<>();
 
     // The source of the config field and value map.
     @NonNull
@@ -167,6 +167,25 @@ public class ConfigManager
         setLogger( logger );
 
         setValues( ConfigBuilder.buildConfigValueMapFromObjects( fieldValueDefaultValue ) );
+    }
+
+    /**
+     * Instantiates a ConfigManager from a stored config value.
+     *
+     * @param configFile The config file.
+     * @param logger     The accessing plugin's logger that is used to log missing and invalid config values.
+     * @throws IOException    If unable to load config values from the config file.
+     * @throws ParseException If unable to load config values from the config file.
+     */
+    public ConfigManager( @NonNull final File configFile, @NonNull final Logger logger )
+            throws IOException, ParseException
+    {
+        final ConfigManager configManager = ConfigManager.loadFromFile( configFile, logger );
+
+        setConfigSource( configManager.getConfigSource() );
+        setLogger( configManager.getLogger() );
+
+        setValues( configManager.getValues() );
     }
 
     /**
@@ -580,21 +599,39 @@ public class ConfigManager
         final FileReader fileReader = new FileReader( configFile );
         final BufferedReader bufferedReader = new BufferedReader( fileReader );
 
-        final List< ConfigComment > comments = new ArrayList<>();
+        final Map< String, String[] > comments = new HashMap<>();
         String line;
-        int i = 0;
+
+        final ArrayList< String > savedComments = new ArrayList<>();
+        String savedValue = "";
 
         while ( ( line = bufferedReader.readLine() ) != null )
         {
-            ++i;
-
             if ( line.isEmpty() || line.startsWith( "#" ) )
             {
-                comments.add( new ConfigComment( i, line ) );
+                if ( savedComments.isEmpty() && !line.startsWith( " " ) )
+                {
+                    savedValue = "";
+                }
+
+                savedComments.add( line.strip() );
+            }
+            else if ( line.contains( ":" ) )
+            {
+                line = line.substring( line.indexOf( ":" ) );
+
+                savedValue += "." + line;
+
+                if ( savedComments.size() > 0 )
+                {
+                    comments.put( savedValue, savedComments.toArray( new String[ 0 ] ) );
+
+                    savedComments.clear();
+                }
             }
         }
 
-        configManager.setComments( comments.toArray( new ConfigComment[ 0 ] ) );
+        configManager.setComments( comments );
 
         bufferedReader.close();
         fileReader.close();
