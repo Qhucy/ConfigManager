@@ -34,7 +34,7 @@ public class ConfigValue
     }
 
     /**
-     * Instantiates ConfigValue from a value. The default value is set to missing.
+     * Instantiates ConfigValue from a value. The default value is set to null.
      *
      * @param value The value for the field in a config field and value map.
      */
@@ -62,6 +62,16 @@ public class ConfigValue
     public final boolean hasDefaultValue()
     {
         return getDefaultValue() != null;
+    }
+
+    /**
+     * Returns true if the value and defaultValue class attribute are both null.
+     *
+     * @return True if the value and defaultValue class attribute are both null.
+     */
+    public final boolean valuesMissing()
+    {
+        return !hasValue() && !hasDefaultValue();
     }
 
 }
