@@ -68,7 +68,7 @@ public final class Dog
     }
 
     @Override
-    public void saveToConfig( @NotNull StorageType storageType)
+    public void saveToConfig( @NotNull StorageType storageType )
     {
 
     }
@@ -80,7 +80,7 @@ public final class Dog
     }
 
     @Override
-    public void loadFromConfig( @NotNull StorageType storageType)
+    public void loadFromConfig( @NotNull StorageType storageType )
     {
 
     }

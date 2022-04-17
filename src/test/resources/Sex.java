@@ -8,6 +8,7 @@ package com.qhucy.configmanager.resources;
 public enum Sex
 {
 
-    MALE, FEMALE
+    MALE,
+    FEMALE
 
 }

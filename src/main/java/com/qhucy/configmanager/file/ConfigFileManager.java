@@ -24,12 +24,14 @@ public class ConfigFileManager
 {
 
     // The list of supported config file extensions.
-    private final static List< String > VALID_EXTENSIONS = Arrays.asList( "yml", "yaml", "toml", "json" );
+    private final static List< String > VALID_EXTENSIONS =
+            Arrays.asList( "yml", "yaml", "toml", "json" );
 
     /**
      * Returns true if the given file is a valid configuration file.
      *
      * @param configFile The config file.
+     *
      * @return True if the given file is a valid configuration file.
      */
     public static boolean isValidConfigFile( @NonNull final File configFile )

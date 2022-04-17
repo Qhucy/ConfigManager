@@ -8,7 +8,8 @@ import java.io.File;
 import java.nio.file.Path;
 
 /**
- * Object that stores the path and file source of where a config field and value map was loaded from.
+ * Object that stores the path and file source of where a config field and value map was loaded
+ * from.
  *
  * @see com.qhucy.configmanager.ConfigManager
  * <p>
@@ -23,6 +24,7 @@ public class ConfigSource
      * Returns a new ConfigSource object from a text path.
      *
      * @param sourcePath The text path of the config source.
+     *
      * @return A new ConfigSource object from a text path.
      */
     @NonNull
@@ -35,6 +37,7 @@ public class ConfigSource
      * Returns a new ConfigSource object from a path.
      *
      * @param sourcePath The path of the config source.
+     *
      * @return A new ConfigSource object from a path.
      */
     @NonNull
@@ -47,6 +50,7 @@ public class ConfigSource
      * Returns a new ConfigSource object from a file.
      *
      * @param sourceFile The config source file.
+     *
      * @return A new ConfigSource object from a file.
      */
     @NonNull
@@ -55,7 +59,8 @@ public class ConfigSource
         return new ConfigSource( sourceFile );
     }
 
-    // The text path that directs you to the source of where the config field and value map was loaded from.
+    // The text path that directs you to the source of where the config field and value map was
+    // loaded from.
     @NonNull
     private String sourcePath;
 

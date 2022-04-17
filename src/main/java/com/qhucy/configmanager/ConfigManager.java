@@ -56,7 +56,8 @@ public class ConfigManager
     // The source of the config field and value map.
     @NonNull
     private ConfigSource configSource;
-    // The accessing plugin's logger that is used to log missing, invalid, and unknown config values.
+    // The accessing plugin's logger that is used to log missing, invalid, and unknown config
+    // values.
     @NonNull
     private Logger       logger;
 
@@ -81,7 +82,8 @@ public class ConfigManager
     }
 
     /**
-     * Instantiates a ConfigManager from a config field and value map and a config default field and value map.
+     * Instantiates a ConfigManager from a config field and value map and a config default field and
+     * value map.
      *
      * @param values        The config field and value map.
      * @param defaultValues The default config field and value map.
@@ -110,15 +112,19 @@ public class ConfigManager
      * @param logger        The accessing plugin's logger that is used to log missing and invalid
      *                      config values.
      */
-    public ConfigManager( @NonNull final List< String > fields, @Nullable final List< Object > values,
-                          @Nullable final List< Object > defaultValues, @NonNull final ConfigSource configSource,
-                          @NonNull final Logger logger )
+    public ConfigManager( @NonNull final List< String > fields,
+                          @Nullable final List< Object > values,
+                          @Nullable final List< Object > defaultValues,
+                          @NonNull final ConfigSource configSource, @NonNull final Logger logger )
     {
         for ( int i = 0; i < fields.size(); ++i )
         {
-            final Object value = ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
-            final Object defaultValue =
-                    ( defaultValues == null ) ? null : ( ( defaultValues.size() > i ) ? defaultValues.get( i ) : null );
+            final Object value =
+                    ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
+            final Object defaultValue = ( defaultValues == null ) ? null
+                                                                  : ( ( defaultValues.size() > i )
+                                                                      ? defaultValues.get( i )
+                                                                      : null );
 
             setConfigValue( fields.get( i ), new ConfigValue( value, defaultValue ) );
         }
@@ -136,12 +142,14 @@ public class ConfigManager
      * @param logger       The accessing plugin's logger that is used to log missing and invalid
      *                     config values.
      */
-    public ConfigManager( @NonNull final List< String > fields, @Nullable final List< Object > values,
+    public ConfigManager( @NonNull final List< String > fields,
+                          @Nullable final List< Object > values,
                           @NonNull final ConfigSource configSource, @NonNull final Logger logger )
     {
         for ( int i = 0; i < fields.size(); ++i )
         {
-            final Object value = ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
+            final Object value =
+                    ( values == null ) ? null : ( ( values.size() > i ) ? values.get( i ) : null );
 
             setConfigValue( fields.get( i ), new ConfigValue( value, null ) );
         }
@@ -173,7 +181,9 @@ public class ConfigManager
      * Instantiates a ConfigManager from a stored config value.
      *
      * @param configFile The config file.
-     * @param logger     The accessing plugin's logger that is used to log missing and invalid config values.
+     * @param logger     The accessing plugin's logger that is used to log missing and invalid
+     *                   config values.
+     *
      * @throws IOException    If unable to load config values from the config file.
      * @throws ParseException If unable to load config values from the config file.
      */
@@ -196,9 +206,11 @@ public class ConfigManager
      *                    location with respect to the parent field.
      * @param deepFields  If fields include all nested fields under child fields or just the child
      *                    fields of the parent.
+     *
      * @return The list of nested fields under a given field in the config key and value map.
      */
-    public final List< String > getConfigSectionFields( @NonNull final String parentField, final boolean fullFields,
+    public final List< String > getConfigSectionFields( @NonNull final String parentField,
+                                                        final boolean fullFields,
                                                         final boolean deepFields )
     {
         Validate.notNull( parentField, "Parameter parentField cannot be null." );
@@ -210,7 +222,7 @@ public class ConfigManager
             if ( field.startsWith( parentField ) && !field.equalsIgnoreCase( parentField ) )
             {
                 final int parentNestedDepth = parentField.split( "\\." ).length;
-                final int fieldNestedDepth = field.split( "\\." ).length;
+                final int fieldNestedDepth  = field.split( "\\." ).length;
 
                 if ( !deepFields && ( fieldNestedDepth - parentNestedDepth ) > 1 )
                 {
@@ -228,7 +240,9 @@ public class ConfigManager
      * Returns the ConfigValue at the given field in the config field and value map.
      *
      * @param field The field for the ConfigValue.
+     *
      * @return The ConfigValue at the given field in the config field and value map.
+     *
      * @see ConfigValue
      */
     @Nullable
@@ -252,9 +266,12 @@ public class ConfigManager
      * @param field       The field to set in the config field and value map.
      * @param configValue The value to attach to the field in the config field and value map.
      */
-    public final void setConfigValue( @NonNull final String field, @Nullable final ConfigValue configValue )
+    public final void setConfigValue( @NonNull final String field,
+                                      @Nullable final ConfigValue configValue )
     {
-        getValues().put( field, Objects.requireNonNullElseGet( configValue, () -> new ConfigValue( null, null ) ) );
+        getValues().put( field, Objects.requireNonNullElseGet( configValue,
+                                                               () -> new ConfigValue( null,
+                                                                                      null ) ) );
     }
 
     /**
@@ -279,6 +296,7 @@ public class ConfigManager
      * missing.
      *
      * @param field The field in the config field and value map.
+     *
      * @return The value at a given field in the config field and value map.
      */
     @Nullable
@@ -294,7 +312,8 @@ public class ConfigManager
             }
             else if ( configValue.hasDefaultValue() )
             {
-                logMissingValueWithReplacement( field, String.valueOf( configValue.getDefaultValue() ) );
+                logMissingValueWithReplacement( field,
+                                                String.valueOf( configValue.getDefaultValue() ) );
 
                 return configValue.getDefaultValue();
             }
@@ -359,6 +378,7 @@ public class ConfigManager
      * Returns the default value at a given field in the config field and value map.
      *
      * @param field The field in the config field and value map.
+     *
      * @return The default value at a given field in the config field and value map.
      */
     @Nullable
@@ -456,12 +476,12 @@ public class ConfigManager
      * @param replacement   The replacement value from the default config field and value map.
      * @param extraMessages Extra messages to separately log afterwards.
      */
-    public void logMissingValueWithReplacement( @NonNull final String field, @NonNull final String replacement,
+    public void logMissingValueWithReplacement( @NonNull final String field,
+                                                @NonNull final String replacement,
                                                 @NonNull final String... extraMessages )
     {
-        logMessage( Level.WARNING, String.format(
-                "Field '%s' does not exist in the config field and value map " + "from " + "'%s'. " + "Using replacement value %s " + "from " + "the " + "default config " + "field" + " " + "and value map" + ".",
-                field, getConfigSource(), replacement ) );
+        logMessage( Level.WARNING, String.format( "Field '%s' does not exist in the config field " +
+                                                          "and value map " + "from " + "'%s'. " + "Using replacement value %s " + "from " + "the " + "default config " + "field" + " " + "and value map" + ".", field, getConfigSource(), replacement ) );
 
         if ( extraMessages.length > 0 )
         {
@@ -478,11 +498,12 @@ public class ConfigManager
      * @param field         The missing field in the config field and value map.
      * @param extraMessages Extra messages to separately log afterwards.
      */
-    public void logMissingValue( @NonNull final String field, @NonNull final String... extraMessages )
+    public void logMissingValue( @NonNull final String field,
+                                 @NonNull final String... extraMessages )
     {
-        logMessage( Level.SEVERE, String.format(
-                "Field '%s' does not exist in the config field and value map " + "from " + "'%s'. " + "No replacements were found " + "and " + "the plugin " + "now emits " + "undefined behavior which is" + " very " + "dangerous!",
-                field, getConfigSource() ) );
+        logMessage( Level.SEVERE, String.format( "Field '%s' does not exist in the config field " +
+                                                         "and value map " + "from " + "'%s'. " +
+                                                         "No replacements were found " + "and " + "the plugin " + "now emits " + "undefined behavior which is" + " very " + "dangerous!", field, getConfigSource() ) );
 
         if ( extraMessages.length > 0 )
         {
@@ -521,7 +542,7 @@ public class ConfigManager
         }
         else if ( configFile.getPath().endsWith( ".json" ) )
         {
-            final Gson gson = new GsonBuilder().create();
+            final Gson   gson       = new GsonBuilder().create();
             final String jsonString = gson.toJson( saveValues );
 
             fileWriter.write( jsonString );
@@ -530,8 +551,7 @@ public class ConfigManager
         {
             fileWriter.close();
 
-            throw new IllegalArgumentException(
-                    "Unable to load configFile at '" + configFile.getAbsolutePath() + "', this API only supports .yml .yaml .toml and .json files." );
+            throw new IllegalArgumentException( "Unable to load configFile at '" + configFile.getAbsolutePath() + "', this API only supports .yml .yaml .toml and .json files." );
         }
 
         // Writing comments to the file.
@@ -545,13 +565,17 @@ public class ConfigManager
      *
      * @param configFile The config source file.
      * @param logger     The logger for the plugin.
+     *
      * @return A ConfigManager from an existing file.
+     *
      * @throws FileNotFoundException If the given file does not exist.
      */
-    public static ConfigManager loadFromFile( @NonNull final File configFile, @NonNull final Logger logger )
+    public static ConfigManager loadFromFile( @NonNull final File configFile,
+                                              @NonNull final Logger logger )
             throws IOException, ParseException
     {
-        final ConfigManager configManager = new ConfigManager( null, new ConfigSource( configFile ), logger );
+        final ConfigManager configManager =
+                new ConfigManager( null, new ConfigSource( configFile ), logger );
 
         // Reset all values in the config field and value map.
         configManager.getValues().clear();
@@ -559,9 +583,9 @@ public class ConfigManager
         // Load all config values from the file.
         if ( configFile.getPath().endsWith( ".yml" ) || configFile.getPath().endsWith( ".yaml" ) )
         {
-            final InputStream inputStream = new FileInputStream( configFile );
-            final Yaml yaml = new Yaml();
-            final Map< String, Object > valueMap = yaml.load( inputStream );
+            final InputStream           inputStream = new FileInputStream( configFile );
+            final Yaml                  yaml        = new Yaml();
+            final Map< String, Object > valueMap    = yaml.load( inputStream );
 
             for ( final String key : valueMap.keySet() )
             {
@@ -582,7 +606,8 @@ public class ConfigManager
         else if ( configFile.getPath().endsWith( ".json" ) )
         {
             final JSONParser jsonParser = new JSONParser();
-            final JsonObject jsonObject = ( JsonObject ) jsonParser.parse( new FileReader( configFile ) );
+            final JsonObject jsonObject =
+                    ( JsonObject ) jsonParser.parse( new FileReader( configFile ) );
 
             for ( final Map.Entry< String, JsonElement > entry : jsonObject.entrySet() )
             {
@@ -591,19 +616,18 @@ public class ConfigManager
         }
         else
         {
-            throw new IllegalArgumentException(
-                    "Unable to load configFile at '" + configFile.getAbsolutePath() + "', this API only supports .yml .yaml .toml and .json files." );
+            throw new IllegalArgumentException( "Unable to load configFile at '" + configFile.getAbsolutePath() + "', this API only supports .yml .yaml .toml and .json files." );
         }
 
         // Load all comments from the file.
-        final FileReader fileReader = new FileReader( configFile );
+        final FileReader     fileReader     = new FileReader( configFile );
         final BufferedReader bufferedReader = new BufferedReader( fileReader );
 
         final Map< String, String[] > comments = new HashMap<>();
-        String line;
+        String                        line;
 
         final ArrayList< String > savedComments = new ArrayList<>();
-        String savedValue = "";
+        String                    savedValue    = "";
 
         while ( ( line = bufferedReader.readLine() ) != null )
         {

@@ -14,14 +14,15 @@ public final class TestingUtil
 {
 
     /**
-     * Short handed assertThrows method call but with NullPointerException as the default
-     * first argument and a default message argument.
+     * Short handed assertThrows method call but with NullPointerException as the default first
+     * argument and a default message argument.
      *
      * @param executable The executable code that should throw an NullPointerException.
      */
     public static void assertParameter( @NonNull final Executable executable )
     {
-        assertThrows( NullPointerException.class, executable, "Expected NullPointerException to be thrown" );
+        assertThrows( NullPointerException.class, executable, "Expected NullPointerException to " +
+                "be thrown" );
     }
 
 }

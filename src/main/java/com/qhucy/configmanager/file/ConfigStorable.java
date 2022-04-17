@@ -4,7 +4,8 @@ import com.qhucy.configmanager.ConfigManager;
 import lombok.NonNull;
 
 /**
- * Interface that allows objects to save and load their contents to and from a config file respectively.
+ * Interface that allows objects to save and load their contents to and from a config file
+ * respectively.
  *
  * @see ConfigManager
  * @see ConfigFileManager
@@ -14,11 +15,11 @@ import lombok.NonNull;
 public interface ConfigStorable
 {
 
-    void saveToConfig( @NonNull final StorageType storageType);
+    void saveToConfig( @NonNull final StorageType storageType );
 
     void saveToConfig();
 
-    void loadFromConfig( @NonNull final StorageType storageType);
+    void loadFromConfig( @NonNull final StorageType storageType );
 
     void loadFromConfig();
 

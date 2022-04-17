@@ -50,15 +50,16 @@ final class ConfigFileManagerTest
         @DisplayName( "Throws exception if file is not YAML file" )
         void throwsExceptionIfFileIsNotYAMLFile()
         {
-            assertFalse( () -> ConfigFileManager.isValidConfigFile( new File( "src/test/resources/text.txt" ) ) );
+            assertFalse( () -> ConfigFileManager.isValidConfigFile( new File( "src/test/resources" +
+                                                                                      "/text.txt" ) ) );
         }
 
         @Test
         @DisplayName( "Does not throw if valid config file" )
         void doesNotThrowIfValidConfigFile()
         {
-            assertTrue(
-                    () -> ConfigFileManager.isValidConfigFile( new File( "src/test/resources/dummy_config.yml" ) ) );
+            assertTrue( () -> ConfigFileManager.isValidConfigFile( new File( "src/test/resources" +
+                                                                                     "/dummy_config.yml" ) ) );
         }
 
     }
