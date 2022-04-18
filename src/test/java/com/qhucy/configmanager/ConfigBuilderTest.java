@@ -30,8 +30,8 @@ class ConfigBuilderTest
         @DisplayName( "Building empty map" )
         void buildingEmptyMap()
         {
-            assertEquals( 0, ConfigBuilder.buildConfigValueMapFromConfigValues().size() );
-            assertEquals( 0, ConfigBuilder.buildConfigValueMapFromConfigValues( null ).size() );
+            assertEquals( 0, ConfigBuilder.buildFromConfigValues().size() );
+            assertEquals( 0, ConfigBuilder.buildFromConfigValues( null ).size() );
         }
 
         @Test
@@ -39,8 +39,8 @@ class ConfigBuilderTest
         void throwsIfOddNumberOfArgs()
         {
             assertThrows( IllegalArgumentException.class,
-                          () -> ConfigBuilder.buildConfigValueMapFromConfigValues( "field",
-                                                                                   new ConfigValue( 1, 2 ), "another-field" ) );
+                          () -> ConfigBuilder.buildFromConfigValues( "field", new ConfigValue( 1,
+                                                                                               2 ), "another-field" ) );
         }
 
         @Test
@@ -48,7 +48,7 @@ class ConfigBuilderTest
         void throwsIfKeyIsNotString()
         {
             assertThrows( IllegalArgumentException.class,
-                          () -> ConfigBuilder.buildConfigValueMapFromConfigValues( 1, 2 ) );
+                          () -> ConfigBuilder.buildFromConfigValues( 1, 2 ) );
         }
 
         @Test
@@ -56,14 +56,15 @@ class ConfigBuilderTest
         void throwsIfValueIsNotConfigValue()
         {
             assertThrows( IllegalArgumentException.class,
-                          () -> ConfigBuilder.buildConfigValueMapFromConfigValues( "field", 40 ) );
+                          () -> ConfigBuilder.buildFromConfigValues( "field", 40 ) );
         }
 
         @Test
         @DisplayName( "Does not throw if value for ConfigValue is null" )
         void doesNotThrowIfValueForConfigValueIsNull()
         {
-            Assertions.assertDoesNotThrow( () -> ConfigBuilder.buildConfigValueMapFromConfigValues( "field", null ) );
+            Assertions.assertDoesNotThrow( () -> ConfigBuilder.buildFromConfigValues( "field",
+                                                                                      null ) );
         }
 
         @Test
@@ -71,8 +72,7 @@ class ConfigBuilderTest
         void buildsConfigFieldAndValueMapCorrectly()
         {
             final HashMap< String, ConfigValue > temp =
-                    ConfigBuilder.buildConfigValueMapFromConfigValues( "a", null, "b",
-                                                                       new ConfigValue( 1, 2 ) );
+                    ConfigBuilder.buildFromConfigValues( "a", null, "b", new ConfigValue( 1, 2 ) );
 
             assertNull( temp.get( "a" ).getValue() );
             assertNull( temp.get( "a" ).getDefaultValue() );
@@ -93,25 +93,24 @@ class ConfigBuilderTest
         @DisplayName( "Building empty map" )
         void buildingEmptyMap()
         {
-            assertEquals( 0, ConfigBuilder.buildConfigValueMapFromObjects().size() );
-            assertEquals( 0, ConfigBuilder.buildConfigValueMapFromObjects( null ).size() );
+            assertEquals( 0, ConfigBuilder.buildFromObjects().size() );
+            assertEquals( 0, ConfigBuilder.buildFromObjects( null ).size() );
         }
 
         @Test
         @DisplayName( "Throws if number of args not divisible by 3" )
         void throwsIfNumberOfArgsNotDivisibleBy3()
         {
-            assertThrows( IllegalArgumentException.class,
-                          () -> ConfigBuilder.buildConfigValueMapFromObjects( "field", 1, 2,
-                                                                              "another-field" ) );
+            assertThrows( IllegalArgumentException.class, () -> ConfigBuilder.buildFromObjects(
+                    "field", 1, 2, "another-field" ) );
         }
 
         @Test
         @DisplayName( "Throws if key is not String" )
         void throwsIfKeyIsNotString()
         {
-            assertThrows( IllegalArgumentException.class,
-                          () -> ConfigBuilder.buildConfigValueMapFromObjects( 1, 2, 3 ) );
+            assertThrows( IllegalArgumentException.class, () -> ConfigBuilder.buildFromObjects( 1
+                    , 2, 3 ) );
         }
 
         @Test
@@ -119,7 +118,7 @@ class ConfigBuilderTest
         void buildsConfigFieldAndValueMapCorrectly()
         {
             final HashMap< String, ConfigValue > temp =
-                    ConfigBuilder.buildConfigValueMapFromObjects( "a", null, null, "b", 1, 2 );
+                    ConfigBuilder.buildFromObjects( "a", null, null, "b", 1, 2 );
 
             assertNull( temp.get( "a" ).getValue() );
             assertNull( temp.get( "a" ).getDefaultValue() );
@@ -138,8 +137,8 @@ class ConfigBuilderTest
         @DisplayName( "Building empty map" )
         void buildingEmptyMap()
         {
-            assertEquals( 0, ConfigBuilder.buildConfigObjectMap().size() );
-            assertEquals( 0, ConfigBuilder.buildConfigObjectMap( null ).size() );
+            assertEquals( 0, ConfigBuilder.buildFromObjectsNoDefaultValue().size() );
+            assertEquals( 0, ConfigBuilder.buildFromObjectsNoDefaultValue( null ).size() );
         }
 
         @Test
@@ -147,7 +146,8 @@ class ConfigBuilderTest
         void throwsIfOddNumberOfArgs()
         {
             assertThrows( IllegalArgumentException.class,
-                          () -> ConfigBuilder.buildConfigObjectMap( "field", 1, "another-field" ) );
+                          () -> ConfigBuilder.buildFromObjectsNoDefaultValue( "field", 1,
+                                                                              "another-field" ) );
         }
 
         @Test
@@ -155,18 +155,19 @@ class ConfigBuilderTest
         void throwsIfKeyIsNotString()
         {
             assertThrows( IllegalArgumentException.class,
-                          () -> ConfigBuilder.buildConfigObjectMap( 1, 2 ) );
+                          () -> ConfigBuilder.buildFromObjectsNoDefaultValue( 1, 2 ) );
         }
 
         @Test
         @DisplayName( "Builds config object map correctly" )
         void buildsConfigObjectMapCorrectly()
         {
-            final HashMap< String, Object > temp =
-                    ConfigBuilder.buildConfigObjectMap( "a", null, "b", 3 );
+            final HashMap< String, ConfigValue > temp =
+                    ConfigBuilder.buildFromObjectsNoDefaultValue( "a", null, "b", 3 );
 
-            assertNull( temp.get( "a" ) );
-            assertEquals( 3, temp.get( "b" ) );
+            assertTrue( temp.get( "a" ).valuesMissing() );
+            assertEquals( 3, temp.get( "b" ).getValue() );
+            assertFalse( temp.get( "b" ).hasDefaultValue() );
         }
 
     }

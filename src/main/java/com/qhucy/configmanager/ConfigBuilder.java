@@ -1,6 +1,7 @@
 package com.qhucy.configmanager;
 
 import com.qhucy.configmanager.value.ConfigValue;
+import lombok.NonNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -21,7 +22,8 @@ public final class ConfigBuilder
      *
      * @return A config field and value map.
      */
-    public static HashMap< String, ConfigValue > buildConfigValueMapFromConfigValues( @Nullable final Object... fieldValue )
+    @NonNull
+    public static HashMap< String, ConfigValue > buildFromConfigValues( @Nullable final Object... fieldValue )
     {
         if ( fieldValue == null || fieldValue.length == 0 )
         {
@@ -29,9 +31,10 @@ public final class ConfigBuilder
         }
         else if ( fieldValue.length % 2 != 0 )
         {
-            throw new IllegalArgumentException( "Parameter fieldValue must have an even " +
-                                                        "length" + " for field and value " +
-                                                        "alternation." );
+            throw new IllegalArgumentException( """
+                                                Parameter fieldValue must have an even length for \
+                                                field and value alternation.
+                                                """ );
         }
         else
         {
@@ -39,23 +42,29 @@ public final class ConfigBuilder
 
             for ( int i = 0; i < fieldValue.length; i += 2 )
             {
-                if ( !( fieldValue[ i ] instanceof String ) )
+                if ( !( fieldValue[ i ] instanceof final String field ) )
                 {
-                    throw new IllegalArgumentException( "Parameter fieldValue must have String " + "field objects alternating with " + "ConfigValue objects." );
+                    throw new IllegalArgumentException( """
+                                                        Parameter fieldValue must have String \
+                                                        field objects alternating with ConfigValue \
+                                                        objects.
+                                                        """ );
                 }
                 else if ( fieldValue[ i + 1 ] == null )
                 {
-                    configValueMap.put( ( String ) fieldValue[ i ], new ConfigValue( null, null ) );
+                    configValueMap.put( field, new ConfigValue( null ) );
                 }
-                else if ( !( fieldValue[ i + 1 ] instanceof ConfigValue ) )
+                else if ( !( fieldValue[ i + 1 ] instanceof final ConfigValue configValue ) )
                 {
-                    throw new IllegalArgumentException( "Parameter fieldValue must have " +
-                                                                "ConfigValue objects alternate " + "after String field objects." );
+                    throw new IllegalArgumentException( """
+                                                        Parameter fieldValue must have String \
+                                                        field objects alternating with ConfigValue \
+                                                        objects.
+                                                        """ );
                 }
                 else
                 {
-                    configValueMap.put( ( String ) fieldValue[ i ],
-                                        ( ConfigValue ) fieldValue[ i + 1 ] );
+                    configValueMap.put( field, configValue );
                 }
             }
 
@@ -67,39 +76,43 @@ public final class ConfigBuilder
      * Returns a config field and value map from an input of alternating String fields with its
      * respective value and default value.
      *
-     * @param fieldValueDefaultValue Alternating String fields and its respective value and default
-     *                               value.
+     * @param fieldValues Alternating String fields and its respective value and default value.
      *
      * @return A config field and value map.
      */
-    public static HashMap< String, ConfigValue > buildConfigValueMapFromObjects( @Nullable final Object... fieldValueDefaultValue )
+    @NonNull
+    public static HashMap< String, ConfigValue > buildFromObjects( @Nullable final Object... fieldValues )
     {
-        if ( fieldValueDefaultValue == null || fieldValueDefaultValue.length == 0 )
+        if ( fieldValues == null || fieldValues.length == 0 )
         {
             return new HashMap<>();
         }
-        else if ( fieldValueDefaultValue.length % 3 != 0 )
+        else if ( fieldValues.length % 3 != 0 )
         {
-            throw new IllegalArgumentException( "Parameter fieldValueDefaultValue must have a " + "length" + " evenly divisible by 3 for field, value, and default value " + "alternation." );
+            throw new IllegalArgumentException( """
+                                                Parameter fieldValues must have a \
+                                                length evenly divisible by 3 for field, value, \
+                                                and default value alternation.
+                                                """ );
         }
         else
         {
             final HashMap< String, ConfigValue > configValueMap = new HashMap<>();
 
-            for ( int i = 0; i < fieldValueDefaultValue.length; i += 3 )
+            for ( int i = 0; i < fieldValues.length; i += 3 )
             {
-                if ( !( fieldValueDefaultValue[ i ] instanceof String ) )
+                if ( !( fieldValues[ i ] instanceof final String field ) )
                 {
-                    throw new IllegalArgumentException( "Parameter fieldValueDefaultValue must " + "have String " + "field objects " + "alternating with its respective " + "value and default value." );
+                    throw new IllegalArgumentException( """
+                                                        Parameter fieldValues must \
+                                                        have String field objects alternating with \
+                                                        its respective value and default value.
+                                                        """ );
                 }
                 else
                 {
-                    final String field = ( String ) fieldValueDefaultValue[ i ];
-                    final ConfigValue configValue =
-                            new ConfigValue( fieldValueDefaultValue[ i + 1 ],
-                                             fieldValueDefaultValue[ i + 2 ] );
-
-                    configValueMap.put( field, configValue );
+                    configValueMap.put( field, new ConfigValue( fieldValues[ i + 1 ],
+                                                                fieldValues[ i + 2 ] ) );
                 }
             }
 
@@ -108,41 +121,47 @@ public final class ConfigBuilder
     }
 
     /**
-     * Returns a config object map from an input of alternating String fields and object values.
+     * Returns a config field and value map from an input of alternating String fields with its
+     * respective value. The default value is always set to null.
      *
-     * @param fieldObject Alternating String fields and object values.
+     * @param fieldValue Alternating String fields and its respective value.
      *
-     * @return A config object map.
+     * @return A config field and value map.
      */
-    public static HashMap< String, Object > buildConfigObjectMap( @Nullable final Object... fieldObject )
+    @NonNull
+    public static HashMap< String, ConfigValue > buildFromObjectsNoDefaultValue( @Nullable final Object... fieldValue )
     {
-        if ( fieldObject == null || fieldObject.length == 0 )
+        if ( fieldValue == null || fieldValue.length == 0 )
         {
             return new HashMap<>();
         }
-        else if ( fieldObject.length % 2 != 0 )
+        else if ( fieldValue.length % 2 != 0 )
         {
-            throw new IllegalArgumentException( "Parameter fieldObject must have an even " +
-                                                        "length" + " for field and value " +
-                                                        "alternation." );
+            throw new IllegalArgumentException( """
+                                                Parameter fieldValue must have an even length for \
+                                                field and value alternation.
+                                                """ );
         }
         else
         {
-            final HashMap< String, Object > fieldObjectMap = new HashMap<>();
+            final HashMap< String, ConfigValue > configValueMap = new HashMap<>();
 
-            for ( int i = 0; i < fieldObject.length; i += 2 )
+            for ( int i = 0; i < fieldValue.length; i += 2 )
             {
-                if ( !( fieldObject[ i ] instanceof String ) )
+                if ( !( fieldValue[ i ] instanceof final String field ) )
                 {
-                    throw new IllegalArgumentException( "Parameter fieldValue must have String " + "field objects alternating with " + "ConfigValue objects." );
+                    throw new IllegalArgumentException( """
+                                                        Parameter fieldValue must have String field\
+                                                         objects alternating with value objects.
+                                                        """ );
                 }
                 else
                 {
-                    fieldObjectMap.put( ( String ) fieldObject[ i ], fieldObject[ i + 1 ] );
+                    configValueMap.put( field, new ConfigValue( fieldValue[ i + 1 ] ) );
                 }
             }
 
-            return fieldObjectMap;
+            return configValueMap;
         }
     }
 

@@ -174,7 +174,7 @@ public class ConfigManager
         setConfigSource( configSource );
         setLogger( logger );
 
-        setValues( ConfigBuilder.buildConfigValueMapFromObjects( fieldValueDefaultValue ) );
+        setValues( ConfigBuilder.buildFromObjects( fieldValueDefaultValue ) );
     }
 
     /**
